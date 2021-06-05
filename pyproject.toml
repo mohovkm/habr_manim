@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "habr_manim"
+version = "0.1.0"
+description = ""
+authors = ["Konstantin Mokhov <Konstantin_Mokhov@epam.com>"]
+packages = [
+    { include = "classes" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+manimlib = "^0.2.0"
+numpy = "^1.20.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
