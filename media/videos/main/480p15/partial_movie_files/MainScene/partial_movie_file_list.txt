@@ -1,4 +1,0 @@
-file 'file:/Users/konstantin_mokhov_epam/dev/habr_manim/media/videos/main/480p15/partial_movie_files/MainScene/00000.mp4'
-file 'file:/Users/konstantin_mokhov_epam/dev/habr_manim/media/videos/main/480p15/partial_movie_files/MainScene/00001.mp4'
-file 'file:/Users/konstantin_mokhov_epam/dev/habr_manim/media/videos/main/480p15/partial_movie_files/MainScene/00002.mp4'
-file 'file:/Users/konstantin_mokhov_epam/dev/habr_manim/media/videos/main/480p15/partial_movie_files/MainScene/00003.mp4'

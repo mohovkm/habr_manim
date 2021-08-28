@@ -6,7 +6,7 @@ from pathlib import Path
 import os
 
 # Из папки с классами импортируем наш созданный класс
-from classes import HistAndFunnel
+from classes import Scenario
 
 # Добавляем флаги для запуски сборки анимации
 # -l (low quality)
@@ -28,8 +28,12 @@ class MainScene(MovingCameraScene):
     def construct(self):
         """Метод construct - точка входа в создание сцены
         """
-        hist = HistAndFunnel(self)
-        hist.play_first_scene()
+        hist = Scenario(self)
+        # hist.play_first_scene()
+        # hist.play_second_scene()
+        # hist.play_third_scene()
+        # hist.play_fourth_scene()
+        hist.play_fifth_scene()
 
 
 if __name__ == '__main__':
