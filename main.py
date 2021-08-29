@@ -33,7 +33,8 @@ class MainScene(MovingCameraScene):
         # hist.play_second_scene()
         # hist.play_third_scene()
         # hist.play_fourth_scene()
-        hist.play_fifth_scene()
+        # hist.play_fifth_scene()
+        hist.play_whole_scenario()
 
 
 if __name__ == '__main__':

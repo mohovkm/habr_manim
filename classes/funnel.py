@@ -4,6 +4,10 @@ from numpy import array, arange
 from colour import Color
 from .histogram_text import HistogramText
 from .shape_point import ShapePoint
+import logging
+
+log = logging.getLogger(__name__)
+log.setLevel("DEBUG")
 
 
 class FunnelException(Exception):

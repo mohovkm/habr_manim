@@ -1,12 +1,15 @@
-from manimlib.imports import MovingCameraScene, Dot, VGroup, BLACK, FadeIn, FadeOut
+from manimlib.imports import MovingCameraScene, Dot, VGroup, BLACK, FadeIn, FadeOut, Transform
 from manimlib.mobject.types.image_mobject import ImageMobject
 from numpy import array
 from random import randint
+from copy import deepcopy
+from colour import Color
 from .histogram_text import HistogramText
 from .table import CustomersTable
 from .graph import ContinuousGraph, CategoricalGraph
 from .funnel import Funnel
-from .movable_graph import MovableCategoricalGraph
+from .movable_graph import MovableCategoricalGraph, MovableContinuousGraph
+from .movable_funnel import MovableFunnel
 
 
 class Scenario:
@@ -143,7 +146,10 @@ class Scenario:
         self.scene.wait(3)
 
     def play_fifth_scene(self):
+        # Начальные значения для точек таблицы, чтобы не было рандома
         start_dot_values = [1,2,1,3,4,2,1]
+
+        # Инициализируем таблицу
         table = CustomersTable(
             (
                 (-6, 2),
@@ -155,6 +161,7 @@ class Scenario:
             start_dots_values=start_dot_values
         )
 
+        # Инициализируем график
         x_graph = MovableCategoricalGraph(
             (
                 (0, 0),
@@ -165,6 +172,7 @@ class Scenario:
             annot=True,
         )
 
+        # Добавляем на экран таблицу и график
         self.scene.play(
             FadeIn(table),
             FadeIn(x_graph)
@@ -172,6 +180,7 @@ class Scenario:
 
         self.scene.wait(2)
 
+        # Перемещаем точки из таблицы на график
         x_graph.drag_in_dots(
             self.scene,
             dots=table.dots,
@@ -180,3 +189,134 @@ class Scenario:
         )
 
         self.scene.wait(3)
+    
+    def play_whole_scenario(self):
+        # Выставляем значения шариков
+        bins = 100
+
+        # Добавляем цвета для значений шариков
+        dot_colors = list(Color('#7fcc81').range_to('#ff7555', int(bins)))
+
+        # Определяем, с каких значений начинать таблицу
+        start_dots_values = [76, 12, 10, 25, 49, 99, 16, 33, 37]
+
+        # Инициализируем таблицу
+        table = CustomersTable(
+            ((-6.5, 3), (-2.5, 3)),
+            row_count=40,
+            visible_row_count=11,
+            bins=bins,
+            colors=dot_colors,
+            start_dots_values=start_dots_values,
+        )
+
+        # Инициализируем график
+        x_graph = MovableContinuousGraph(
+            ((-2, -3), (6.5, -3)),
+            None,
+            bins=bins,
+            annot=True,
+        )
+
+        # Добавляем второй график (на всю ширину экрана)
+        x_graph_second_position = MovableContinuousGraph(
+            ((-6.5, -3), (6.5, -3)),
+            None,
+            bins=bins,
+            annot=True
+        )
+
+        # Копируем все шарики (необходимо для дальнейших преобразований)
+        dots_second_position = deepcopy(table.dots)
+
+        # Добавляем на экран таблицу и первый график
+        self.scene.play(
+            FadeIn(table),
+            FadeIn(x_graph)
+        )
+
+        self.scene.wait(2)
+
+        # Перемещаем точки из таблицы на график
+        x_graph.drag_in_dots(
+            self.scene,
+            dots=table.dots,
+            animate_slow=3,
+            animate_rest=True
+        )
+
+        self.scene.wait(3)
+
+        # Убираем с экрана таблицу с покупателями
+        self.scene.play(
+            FadeOut(table.lines),
+            FadeOut(table.customers)
+        )
+
+        # Перемещаем шарики из 1-го графика во 2-й график
+        x_graph_second_position.drag_in_dots(
+            scene=self.scene,
+            dots=dots_second_position,
+            animate_slow=0,
+            animate_rest=False
+        )
+
+        # Перемещаем на экране график1 в график2 и шарики1 в шарики2
+        self.scene.play(
+            Transform(
+                x_graph,
+                x_graph_second_position
+            ),
+            Transform(
+                table.dots,
+                dots_second_position
+            )
+        )
+
+        self.scene.wait(3)
+
+        # Создаем объект с воронками
+        funnels = MovableFunnel(
+            run_time=.8,
+            left_top_and_right_bottom_points=((-6.5, -4), (6.5, -8.5)),
+            funnels_count=5,
+            point_radius=.2,
+            bins=bins
+        )
+
+        # Показываем воронки на экране
+        self.scene.add(funnels)
+
+        # Перемещаем камеру вниз (график уходит вверх)
+        self.scene.play(
+            self.scene.camera_frame.move_to,
+            array([0, -5.5, 0])
+        )
+
+        self.scene.wait(1)
+
+        # Перемещаем шарики с графика в воронки
+        funnels.drag_in_dots(
+            scene=self.scene,
+            dots=table.dots,
+            animate_slow=9,
+            animate_rest=True
+        )
+
+        self.scene.wait(3)
+
+        # Удаляем со сцены объекты
+        self.scene.play(
+            FadeOut(funnels),
+            FadeOut(table.dots),
+            FadeOut(x_graph),
+            FadeOut(x_graph_second_position)
+        )
+
+        # Возвращаем сцену на предыдущее место
+        self.scene.play(
+            self.scene.camera_frame.move_to,
+            array([0, 0, 0])
+        )
+
+        self.scene.wait(1)
