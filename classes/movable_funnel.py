@@ -1,7 +1,9 @@
-from numpy import array, arange, interp
-from manimlib.imports import VGroup, Scene, ApplyMethod, Transform
 from copy import deepcopy
 from typing import Union
+
+from manimlib.imports import ApplyMethod, Scene, Transform, VGroup
+from numpy import arange, array, interp
+
 from .funnel import Funnel
 from .histogram_dot import HistogramDot
 
@@ -41,12 +43,12 @@ class MovableFunnel(Funnel):
 
         index = None
         for i, val in enumerate(arange(x_point_left, x_point_right, self.step)):
-            if val <= point_x <= (val+self.step):
+            if val <= point_x <= (val + self.step):
                 index = i
                 break
 
         if index is None:
-            raise LineNotFoundException('Line index was not found')
+            raise LineNotFoundException("Line index was not found")
 
         funnel = self.funnels[index]
         line_left_x_start = funnel[2].get_points()[0][0]
@@ -54,15 +56,15 @@ class MovableFunnel(Funnel):
         line_right_x_start = funnel[3].get_points()[-1][0]
         line_right_x_end = funnel[3].get_points()[0][0]
         funnel_center_x = line_left_x_end + point.radius + (point.radius / 2)
-        funnel_center_y = funnel[2].get_all_points()[-1][1] + .1
+        funnel_center_y = funnel[2].get_all_points()[-1][1] + 0.1
         funnel_last_point = self._point_in_funnels[index]
 
         if len(funnel_last_point) > 0:
             funnel_bottom_y = funnel_last_point[-1][1]
-            funnel_bottom_y += (point.radius * 2) + .05
+            funnel_bottom_y += (point.radius * 2) + 0.05
         else:
             funnel_bottom_y = funnel[0].get_all_points()[0][1]
-            funnel_bottom_y += self.y_bottom_shift + point.radius + .05
+            funnel_bottom_y += self.y_bottom_shift + point.radius + 0.05
 
         if line_left_x_start <= point_x <= line_left_x_end:
             line = funnel[2]
@@ -80,25 +82,13 @@ class MovableFunnel(Funnel):
 
             # Основная магия. Интерполируем значение Y исходя из массива точек X и Y.
             point_y = interp(point_x, line_x, line_y, period=10)
-            point_y += .25
+            point_y += 0.25
 
-            first_point = array([
-                point_x,
-                point_y,
-                0
-            ])
+            first_point = array([point_x, point_y, 0])
 
-            second_point = array([
-                funnel_center_x,
-                funnel_center_y,
-                0
-            ])
+            second_point = array([funnel_center_x, funnel_center_y, 0])
 
-        third_point = array([
-            funnel_center_x,
-            funnel_bottom_y,
-            0
-        ])
+        third_point = array([funnel_center_x, funnel_bottom_y, 0])
 
         self._point_in_funnels[index].append(third_point)
 
@@ -120,29 +110,11 @@ class MovableFunnel(Funnel):
             first_point, second_point, third_point = self._get_next_dots_coords(dot)
 
             if first_point is not None:
-                scene.play(
-                    ApplyMethod(
-                        dot.move_to,
-                        first_point
-                    ),
-                    run_time=self.run_time
-                )
+                scene.play(ApplyMethod(dot.move_to, first_point), run_time=self.run_time)
 
-                scene.play(
-                    ApplyMethod(
-                        dot.move_to,
-                        second_point
-                    ),
-                    run_time=self.run_time
-                )
+                scene.play(ApplyMethod(dot.move_to, second_point), run_time=self.run_time)
 
-            scene.play(
-                ApplyMethod(
-                    dot.move_to,
-                    third_point
-                ),
-                run_time=self.run_time
-            )
+            scene.play(ApplyMethod(dot.move_to, third_point), run_time=self.run_time)
 
         dots_rest = deepcopy(dots[animate_slow:])
 
@@ -151,12 +123,7 @@ class MovableFunnel(Funnel):
             dot.move_to(third_point)
 
         if animate_rest:
-            scene.play(
-                Transform(
-                    dots[animate_slow:],
-                    dots_rest
-                )
-            )
+            scene.play(Transform(dots[animate_slow:], dots_rest))
 
         else:
             scene.add(dots_rest)

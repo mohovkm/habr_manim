@@ -1,8 +1,10 @@
-from manimlib.imports import VGroup, BLACK, Line, LEFT_SIDE
-from colour import Color
-from typing import Tuple, List, Union
 import random
+from typing import List, Tuple, Union
+
+from colour import Color
+from manimlib.imports import BLACK, LEFT_SIDE, Line, VGroup
 from numpy import array
+
 from .histogram_dot import HistogramDot
 from .histogram_text import HistogramText
 from .shape_point import ShapePoint
@@ -19,17 +21,19 @@ class TableLineEmptyException(TableException):
 class Table(VGroup):
     """Класс таблицы (VGroup). Таблица состоит из линий (Line)"""
 
-    def __init__(self,
-                 start_end_points: Tuple[tuple, tuple],
-                 row_count: int = 0,
-                 row_height: Union[int, float] = .2,
-                 column_count: int = 0,
-                 visible_row_count: int = 0,
-                 columns_width: tuple = None,
-                 lines_color: Color = BLACK,
-                 stroke_width: Union[int, float] = 1,
-                 *args, **kwargs
-                 ):
+    def __init__(
+        self,
+        start_end_points: Tuple[tuple, tuple],
+        row_count: int = 0,
+        row_height: Union[int, float] = 0.2,
+        column_count: int = 0,
+        visible_row_count: int = 0,
+        columns_width: tuple = None,
+        lines_color: Color = BLACK,
+        stroke_width: Union[int, float] = 1,
+        *args,
+        **kwargs,
+    ):
         """Инициализация класса таблицы
 
         :param start_end_points: Левая верхняя и правая верхняя точка таблицы. ((x1, y1), (x2, y2))
@@ -44,16 +48,17 @@ class Table(VGroup):
         :param kwargs:
         """
         if not start_end_points:
-            detail = 'Can\'t create graph with empty start line.'
+            detail = "Can't create graph with empty start line."
             raise TableLineEmptyException(detail)
 
         if columns_width:
-            assert len(columns_width) == column_count, \
-                'Columns count and list with they widths must be the same length.'
+            assert (
+                len(columns_width) == column_count
+            ), "Columns count and list with they widths must be the same length."
 
         self.horizontal_line = [
             ShapePoint(start_end_points[0]),
-            ShapePoint(start_end_points[1])
+            ShapePoint(start_end_points[1]),
         ]
 
         self.row_count = row_count
@@ -88,7 +93,7 @@ class Table(VGroup):
                     array([x_left_point, y_point, 0]),
                     array([x_right_point, y_point, 0]),
                     color=self.lines_color,
-                    stroke_width=self.stroke_width
+                    stroke_width=self.stroke_width,
                 )
             )
 
@@ -101,9 +106,9 @@ class Table(VGroup):
                 lines.append(
                     Line(
                         array([x_point, y_point, 0]),
-                        array([x_point, y_point-y_step, 0]),
+                        array([x_point, y_point - y_step, 0]),
                         color=self.lines_color,
-                        stroke_width=self.stroke_width
+                        stroke_width=self.stroke_width,
                     )
                 )
 
@@ -113,8 +118,8 @@ class Table(VGroup):
                 if self.columns_width:
                     temp_step = self.columns_width[j]
 
-                    assert isinstance(temp_step, float), 'Column width must be a float value'
-                    assert 0 < temp_step <= 1, 'Column with must be in range [0 < column_width <= 1]'
+                    assert isinstance(temp_step, float), "Column width must be a float value"
+                    assert 0 < temp_step <= 1, "Column with must be in range [0 < column_width <= 1]"
 
                     x_point = x_point + (distance * temp_step)
                 else:
@@ -130,16 +135,19 @@ class Table(VGroup):
 class CustomersTable(Table):
     """Перегрузка стандартной таблицы. Добавление текста (customers) и шариков (dots)"""
 
-    def __init__(self,
-                 start_end_points: Tuple[tuple, tuple],
-                 row_count: int = 0,
-                 row_height: Union[int, float] = .5,
-                 visible_row_count: int = 0,
-                 colors: list = None,
-                 bins: Union[int, float] = 0,
-                 text: str = '',
-                 start_dots_values: list = None,
-                 *args, **kwargs):
+    def __init__(
+        self,
+        start_end_points: Tuple[tuple, tuple],
+        row_count: int = 0,
+        row_height: Union[int, float] = 0.5,
+        visible_row_count: int = 0,
+        colors: list = None,
+        bins: Union[int, float] = 0,
+        text: str = "",
+        start_dots_values: list = None,
+        *args,
+        **kwargs,
+    ):
         """Инициализация класса.
 
         :param start_end_points: Левая верхняя и правая верхняя точка таблицы. ((x1, y1), (x2, y2))
@@ -157,23 +165,23 @@ class CustomersTable(Table):
 
         horizontal_line = [
             ShapePoint(start_end_points[0]),
-            ShapePoint(start_end_points[1])
+            ShapePoint(start_end_points[1]),
         ]
 
         self.colors = colors or list()
         self.bins = bins
         column_count = 2
-        columns_width = (.8, .2)
+        columns_width = (0.8, 0.2)
         self.text = text
-        self.text_scale = .6
+        self.text_scale = 0.6
         self.start_dots_values = start_dots_values
-        self.default_color = 'red'
+        self.default_color = "red"
 
         self.customers, self.dots = self._add_dots_and_customers_to_table(
             horizontal_line=horizontal_line,
             row_count=row_count,
             row_height=row_height,
-            columns_width=columns_width
+            columns_width=columns_width,
         )
 
         super().__init__(
@@ -187,15 +195,17 @@ class CustomersTable(Table):
             1,
             *self.customers,
             *self.dots,
-            *args, **kwargs
+            *args,
+            **kwargs,
         )
 
-    def _add_dots_and_customers_to_table(self,
-                                         horizontal_line: List[ShapePoint],
-                                         row_height: Union[int, float],
-                                         row_count: int,
-                                         columns_width: Tuple
-                                         ) -> Tuple[VGroup, VGroup]:
+    def _add_dots_and_customers_to_table(
+        self,
+        horizontal_line: List[ShapePoint],
+        row_height: Union[int, float],
+        row_count: int,
+        columns_width: Tuple,
+    ) -> Tuple[VGroup, VGroup]:
         """Добавление точек в таблицу с покупателями.
 
         :return:
@@ -214,7 +224,7 @@ class CustomersTable(Table):
 
             # Добавляем надпись "Покупатель"
             customer = HistogramText(
-                f'{self.text} {i+1}',
+                f"{self.text} {i+1}",
                 color=BLACK,
             )
 
@@ -223,17 +233,13 @@ class CustomersTable(Table):
 
             # Передвигаем текст в ячейку
             customer.move_to(
-                array([
-                        x_left_point + .2,
-                        y_point - (y_step / 2),
-                        0
-                ]),
-                aligned_edge=LEFT_SIDE # Выравниваем относительно левой части объекта
+                array([x_left_point + 0.2, y_point - (y_step / 2), 0]),
+                aligned_edge=LEFT_SIDE,  # Выравниваем относительно левой части объекта
             )
             customers.append(customer)
 
             # Настраиваем генерацию рандома
-            random.seed(i+1)
+            random.seed(i + 1)
 
             # Добавляем значение точки (шарика)
             if self.start_dots_values and i < len(self.start_dots_values):
@@ -251,12 +257,8 @@ class CustomersTable(Table):
             # Создаем шарик
             dot = HistogramDot(
                 value=dot_value,
-                point=array([
-                    x_left_point + step_x + .3,
-                    y_point - (y_step / 2),
-                    0
-                ]),
-                color=dot_color
+                point=array([x_left_point + step_x + 0.3, y_point - (y_step / 2), 0]),
+                color=dot_color,
             )
 
             dots.append(dot)
