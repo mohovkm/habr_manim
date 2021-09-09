@@ -15,7 +15,7 @@ log.setLevel("DEBUG")
 class FunnelException(Exception):
     pass
 
-
+### класс воронки или воронок? Абстракция
 class Funnel(VGroup):
     """Класс VGroup для получения воронки (Воронка состоит из линий(Line))"""
 
