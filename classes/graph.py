@@ -88,7 +88,7 @@ class Graph(ABC):
             start_x += self.step_x
 
         return d
-
+# внутренний _метод для внешнего использования
     @abstractmethod
     def _create_graph(self) -> Tuple[list, list]:
         pass
@@ -179,7 +179,7 @@ class CategoricalGraph(Graph, VGroup):
 
 class ContinuousGraph(Graph, VGroup):
     """Непрерывный тип графика (VGroup) (Наследуется от Graph)"""
-
+#смысл?
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -246,6 +246,7 @@ class ContinuousGraph(Graph, VGroup):
             # Добавляем 2 горизонтальные линии
             lines.extend(
                 [
+### dry
                     Line(
                         array([x_coord - 0.3, self.vertical_line[0].coords[1], 0]),
                         array([x_coord + 0.3, self.vertical_line[0].coords[1], 0]),
