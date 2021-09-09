@@ -15,11 +15,12 @@ from classes import Scenario
 RESOLUTION = ""
 FLAGS = f"-pl {RESOLUTION}"
 SCENE = "MainScene"
-
+# выносим в шел аргументы ? Или модуль
 
 class MainScene(MovingCameraScene):
     # По умолчанию фон видео будет черным. Изменить текущее поведение можно
     # с помощью переменной класса "CONFIG"
+#настройка прячется в класс? 
     CONFIG = {
         "camera_config": {
             "background_color": "#fff2df",
@@ -38,5 +39,6 @@ class MainScene(MovingCameraScene):
 
 
 if __name__ == "__main__":
+# зачем форматная строка
     script_name = f"{Path(__file__).resolve()}"
     os.system(f"manim {script_name} {SCENE} {FLAGS}")
