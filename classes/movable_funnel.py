@@ -119,6 +119,7 @@ class MovableFunnel(Funnel):
         dots_rest = deepcopy(dots[animate_slow:])
 
         for dot in dots_rest:
+# опечатка?
             *_, third_point = self._get_next_dots_coords(dot)
             dot.move_to(third_point)
 
