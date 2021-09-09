@@ -1,4 +1,5 @@
 # Examples of how to write your own classes with help of [manimlib](https://github.com/3b1b/manim)
+![final scenario](final_scenario.gif)
 
 ### How to run it on your local machine:
 1. Install [poetry](https://python-poetry.org/)
