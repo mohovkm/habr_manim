@@ -18,7 +18,7 @@ class Movable(ABC):
     def __init__(self, *args, run_time: Union[int, float] = None, **kwargs):
         """Инициализация класса"""
         self._next_dots_coords = self._prepare_next_dot_coords()
-
+### init
         super().__init__(*args, **kwargs)
 
     def _get_next_dot_coords(self, dot: HistogramDot) -> array:
