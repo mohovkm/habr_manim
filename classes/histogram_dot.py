@@ -22,7 +22,7 @@ class HistogramDot(VGroup):
         point: array,
         radius: float = None,
         color: Color = None,
-        *args,
+        *args, # для чего
         **kwargs,
     ):
         """Инициализация класса
@@ -62,7 +62,7 @@ class HistogramDot(VGroup):
         # Двигаем текст в центр шарика
         text.move_to(dot.get_center())
 
-        super().__init__(dot, text, *args, **kwargs)
+        super().__init__(dot, text, *args, **kwargs) # тут соотв
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.value}, {self.point}, {self.radius}, {self.color})"
