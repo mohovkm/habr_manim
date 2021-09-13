@@ -19,6 +19,13 @@ class GraphLinesEmptyException(GraphException):
 class Graph(ABC):
     """Класс для получения и отрисовки графика (график состоит из линий(Line))"""
 
+    bins: int
+    color: str
+    annot: bool
+    text_scale: float = 0.6
+    dot_padding: float = 0.25
+    stroke_width: float
+
     def __init__(
         self,
         horizontal_line: Tuple[tuple, tuple] = None,
@@ -27,8 +34,6 @@ class Graph(ABC):
         annot: bool = False,
         color=BLACK,
         stroke_width=1,
-        *args,
-        **kwargs
     ):
         """
 
@@ -38,8 +43,6 @@ class Graph(ABC):
         :param annot: Подписывать корзины или нет.
         :param color: Цвет линий графика.
         :param stroke_width: Ширина линий графика.
-        :param args:
-        :param kwargs:
         """
         if not horizontal_line and not vertical_line:
             detail = "Can't create graph with empty lines."
@@ -65,13 +68,11 @@ class Graph(ABC):
         self.bins = bins
         self.color = color
         self.annot = annot
-        self.text_scale = 0.6
-        self.dot_padding = 0.25
         self.stroke_width = stroke_width
 
-        lines, texts = self._create_graph()
+        lines, texts = self.create_graph()
 
-        super().__init__(*lines, *texts, *args, **kwargs)
+        super().__init__(*lines, *texts)
 
     def _prepare_next_dot_coords(self) -> dict:
         """Подготовка словаря с информацией о серединах корзин на графике.
@@ -90,17 +91,14 @@ class Graph(ABC):
         return d
 
     @abstractmethod
-    def _create_graph(self) -> Tuple[list, list]:
+    def create_graph(self) -> Tuple[list, list]:
         pass
 
 
 class CategoricalGraph(Graph, VGroup):
     """Категориальный тип графика (VGroup) (Наследуется от Graph)"""
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def _create_graph(self) -> Tuple[list, list]:
+    def create_graph(self) -> Tuple[list, list]:
         """Создание графика
 
         :return: lines, texts (список из линий графика и текста аннотации)
@@ -180,10 +178,7 @@ class CategoricalGraph(Graph, VGroup):
 class ContinuousGraph(Graph, VGroup):
     """Непрерывный тип графика (VGroup) (Наследуется от Graph)"""
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def _create_graph(self) -> Tuple[list, list]:
+    def create_graph(self) -> Tuple[list, list]:
         """Создание графика
 
         :return: lines, texts (список из линий графика и текста аннотации)

@@ -23,8 +23,8 @@ class MovableFunnel(Funnel):
         """Инициализация класса. Список всех необходимых параметров смотри в методе __init__ класса Funnel.
 
         :param run_time: Время - насколько быстро анимировать падение шариков.
-        :param args:
-        :param kwargs:
+        :param args: postiiton arguments for the Funnel class
+        :param kwargs: keyword arguments for the Funnel class
         """
 
         self.run_time = run_time

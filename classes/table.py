@@ -44,8 +44,6 @@ class Table(VGroup):
         :param columns_width: Ширина колонок. Для 3-х колонок выглядит, как (.4, .4, .2)
         :param lines_color: Цвет линий таблицы.
         :param stroke_width: Ширина линий таблицы.
-        :param args:
-        :param kwargs:
         """
         if not start_end_points:
             detail = "Can't create graph with empty start line."
@@ -145,8 +143,6 @@ class CustomersTable(Table):
         bins: Union[int, float] = 0,
         text: str = "",
         start_dots_values: list = None,
-        *args,
-        **kwargs,
     ):
         """Инициализация класса.
 
@@ -159,8 +155,6 @@ class CustomersTable(Table):
         :param bins: Количество корзин (возможных значений шариков).
         :param text: ,
         :param start_dots_values: Список с начальными значениями шариков,
-        :param args:
-        :param kwargs:
         """
 
         horizontal_line = [
@@ -195,8 +189,6 @@ class CustomersTable(Table):
             1,
             *self.customers,
             *self.dots,
-            *args,
-            **kwargs,
         )
 
     def _add_dots_and_customers_to_table(

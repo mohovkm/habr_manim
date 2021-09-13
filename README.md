@@ -1,4 +1,4 @@
-# Examples of how to write your own classes with help of [manimlib](https://github.com/3b1b/manim)
+# Manimlib animation examples [manimlib](https://github.com/3b1b/manim)
 ![final scenario](final_scenario.gif)
 
 ### How to run it on your local machine:

@@ -1,13 +1,17 @@
 # Импортируем необходимые библиотеки.
-# Вместо обычной CameraScene импортируем MovingCamera, чтобы иметь возможность
-# перемещать сцену
 import os
 from pathlib import Path
 
 from manimlib.imports import MovingCameraScene
 
+from config import SCENE_BACKGROUND_COLOR
+
 # Из папки с классами импортируем наш созданный класс
-from classes import Scenario
+from scenario import Scenario
+
+# Вместо обычной CameraScene импортируем MovingCamera, чтобы иметь возможность
+# перемещать сцену
+
 
 # Добавляем флаги для запуски сборки анимации
 # -l (low quality)
@@ -22,7 +26,7 @@ class MainScene(MovingCameraScene):
     # с помощью переменной класса "CONFIG"
     CONFIG = {
         "camera_config": {
-            "background_color": "#fff2df",
+            "background_color": SCENE_BACKGROUND_COLOR,
         },
     }
 
@@ -34,9 +38,9 @@ class MainScene(MovingCameraScene):
         # hist.play_third_scene()
         # hist.play_fourth_scene()
         # hist.play_fifth_scene()
-        # hist.play_whole_scenario()
+        hist.play_whole_scenario()
 
 
 if __name__ == "__main__":
-    script_name = f"{Path(__file__).resolve()}"
+    script_name = Path(__file__).resolve()
     os.system(f"manim {script_name} {SCENE} {FLAGS}")

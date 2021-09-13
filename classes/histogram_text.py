@@ -1,10 +1,11 @@
 from manimlib.imports import Text
 
+TEXT_FONT_FAMILY = "Suisse Intl Regular"
+
 
 class HistogramText(Text):
     """Перегрузка класса Text для применения шрифта"""
 
-    CONFIG = {"font": "Suisse Intl Regular"}
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    CONFIG = {
+        "font": TEXT_FONT_FAMILY,
+    }

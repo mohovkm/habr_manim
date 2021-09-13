@@ -5,12 +5,16 @@ from colour import Color
 from manimlib.imports import BLACK, Dot, FadeIn, FadeOut, MovingCameraScene, Transform, VGroup
 from numpy import array
 
-from .funnel import Funnel
-from .graph import CategoricalGraph, ContinuousGraph
-from .histogram_text import HistogramText
-from .movable_funnel import MovableFunnel
-from .movable_graph import MovableCategoricalGraph, MovableContinuousGraph
-from .table import CustomersTable
+from classes import (
+    CategoricalGraph,
+    ContinuousGraph,
+    CustomersTable,
+    Funnel,
+    HistogramText,
+    MovableCategoricalGraph,
+    MovableContinuousGraph,
+    MovableFunnel,
+)
 
 
 class Scenario:
@@ -150,6 +154,9 @@ class Scenario:
         # Определяем, с каких значений начинать таблицу
         start_dots_values = [76, 12, 10, 25, 49, 99, 16, 33, 37]
 
+        # Текст в таблице (Заказчик/Покупатель...)
+        table_text = "Заказчик"
+
         # Инициализируем таблицу
         table = CustomersTable(
             ((-6.5, 3), (-2.5, 3)),
@@ -158,6 +165,7 @@ class Scenario:
             bins=bins,
             colors=dot_colors,
             start_dots_values=start_dots_values,
+            text=table_text,
         )
 
         # Инициализируем график
@@ -169,7 +177,12 @@ class Scenario:
         )
 
         # Добавляем второй график (на всю ширину экрана)
-        x_graph_second_position = MovableContinuousGraph(((-6.5, -3), (6.5, -3)), None, bins=bins, annot=True)
+        x_graph_second_position = MovableContinuousGraph(
+            ((-6.5, -3), (6.5, -3)),
+            None,
+            bins=bins,
+            annot=True,
+        )
 
         # Копируем все шарики (необходимо для дальнейших преобразований)
         dots_second_position = deepcopy(table.dots)
@@ -180,7 +193,12 @@ class Scenario:
         self.scene.wait(2)
 
         # Перемещаем точки из таблицы на график
-        x_graph.drag_in_dots(self.scene, dots=table.dots, animate_slow=3, animate_rest=True)
+        x_graph.drag_in_dots(
+            self.scene,
+            dots=table.dots,
+            animate_slow=3,
+            animate_rest=True,
+        )
 
         self.scene.wait(3)
 

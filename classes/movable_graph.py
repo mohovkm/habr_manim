@@ -15,7 +15,7 @@ class Movable(ABC):
     _next_dot_coords = {}
     dot_padding = 0
 
-    def __init__(self, *args, run_time: Union[int, float] = None, **kwargs):
+    def __init__(self, *args, **kwargs):
         """Инициализация класса"""
         self._next_dots_coords = self._prepare_next_dot_coords()
 
@@ -81,12 +81,8 @@ class Movable(ABC):
 
 
 class MovableContinuousGraph(ContinuousGraph, Movable):
-    """График, который может перемещать к себе шарики."""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """Непрерывный график, который может перемещать к себе шарики."""
 
 
 class MovableCategoricalGraph(CategoricalGraph, Movable):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """Категориальный график, который может перемещать к себе шарики."""

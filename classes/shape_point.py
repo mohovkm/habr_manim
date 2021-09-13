@@ -18,6 +18,8 @@ class ShapePointTooManyValuesException(ShapePointException):
 class ShapePoint:
     """Класс с информацией о координатах точки на экране"""
 
+    _coords: array
+
     def __init__(self, coords: Tuple[Union[int, float], Union[int, float]]):
         self.coords = coords
 
