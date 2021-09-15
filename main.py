@@ -33,11 +33,12 @@ class MainScene(MovingCameraScene):
     def construct(self):
         """Метод construct - точка входа в создание сцены"""
         hist = Scenario(self)
-        hist.play_first_scene()
+        # hist.play_first_scene()
         # hist.play_second_scene()
         # hist.play_third_scene()
         # hist.play_fourth_scene()
         # hist.play_fifth_scene()
+        # hist.play_sixth_scene()
         hist.play_whole_scenario()
 
 

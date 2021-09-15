@@ -10,6 +10,7 @@ from classes import (
     ContinuousGraph,
     CustomersTable,
     Funnel,
+    Funnels,
     HistogramText,
     MovableCategoricalGraph,
     MovableContinuousGraph,
@@ -105,7 +106,11 @@ class Scenario:
         self.scene.wait(3)
 
     def play_fourth_scene(self):
-        funnel = Funnel(((-4, 2), (4, -2)), funnels_count=3, point_radius=0.2, bins=4)
+        funnel = Funnel(
+            ((-2, 2), (1, -2)),
+            height=4,
+            point_radius=0.2,
+        )
 
         self.scene.play(
             FadeIn(funnel),
@@ -144,6 +149,37 @@ class Scenario:
 
         self.scene.wait(3)
 
+    def play_sixth_scene(self):
+        bins = 100
+        funnels = Funnels(
+            start_end_points=((-6.5, 0), (6.5, 0)),
+            funnel=MovableFunnel,
+            count=5,
+            bins=bins,
+            annot=True,
+            point_radius=0.2,
+            run_time=0.8,
+            height=3,
+        )
+
+        # Начальные значения для точек таблицы, чтобы не было рандома
+        start_dot_values = [1, 2, 1, 3, 4, 2, 1]
+
+        # Инициализируем таблицу
+        table = CustomersTable(
+            ((-5, 2), (-1, 2)),
+            row_count=3,
+            visible_row_count=3,
+            bins=4,
+            start_dots_values=start_dot_values,
+        )
+
+        # Добавляем на сцену объекты
+        self.scene.add(funnels, table)
+
+        # Перемещаем шарики в воронки
+        funnels.drag_in_dots(scene=self.scene, dots=table.dots, animate_slow=3, animate_rest=False)
+
     def play_whole_scenario(self):
         # Выставляем значения шариков
         bins = 100
@@ -152,7 +188,7 @@ class Scenario:
         dot_colors = list(Color("#7fcc81").range_to("#ff7555", int(bins)))
 
         # Определяем, с каких значений начинать таблицу
-        start_dots_values = [76, 12, 10, 25, 49, 99, 16, 33, 37]
+        start_dots_values = [31, 25, 63, 47, 82, 25, 49, 99, 21, 33, 37]
 
         # Текст в таблице (Заказчик/Покупатель...)
         table_text = "Заказчик"
@@ -160,7 +196,7 @@ class Scenario:
         # Инициализируем таблицу
         table = CustomersTable(
             ((-6.5, 3), (-2.5, 3)),
-            row_count=40,
+            row_count=30,
             visible_row_count=11,
             bins=bins,
             colors=dot_colors,
@@ -221,13 +257,16 @@ class Scenario:
 
         self.scene.wait(3)
 
-        # Создаем объект с воронками
-        funnels = MovableFunnel(
-            run_time=0.8,
-            left_top_and_right_bottom_points=((-6.5, -4), (6.5, -8.5)),
-            funnels_count=5,
-            point_radius=0.2,
+        # Добавляем объект с воронками
+        funnels = Funnels(
+            start_end_points=((-6.5, -4), (6.5, -4)),
+            funnel=MovableFunnel,
+            count=5,
             bins=bins,
+            annot=True,
+            point_radius=0.2,
+            run_time=0.8,
+            height=4,
         )
 
         # Показываем воронки на экране
@@ -239,7 +278,12 @@ class Scenario:
         self.scene.wait(1)
 
         # Перемещаем шарики с графика в воронки
-        funnels.drag_in_dots(scene=self.scene, dots=table.dots, animate_slow=9, animate_rest=True)
+        funnels.drag_in_dots(
+            scene=self.scene,
+            dots=table.dots,
+            animate_slow=9,
+            animate_rest=True,
+        )
 
         self.scene.wait(3)
 
