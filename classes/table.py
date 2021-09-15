@@ -1,5 +1,5 @@
 import random
-from typing import List, Tuple, Union
+from typing import Tuple, Union
 
 from colour import Color
 from manimlib.imports import BLACK, LEFT_SIDE, Line, VGroup
@@ -36,14 +36,20 @@ class Table(VGroup):
     ):
         """Инициализация класса таблицы
 
-        :param start_end_points: Левая верхняя и правая верхняя точка таблицы. ((x1, y1), (x2, y2))
-        :param row_count: Количество строк таблицы.
-        :param row_height: Высота строк таблицы.
-        :param column_count: Количество колонок таблицы.
-        :param visible_row_count: Количество видимых на экране строк.
-        :param columns_width: Ширина колонок. Для 3-х колонок выглядит, как (.4, .4, .2)
-        :param lines_color: Цвет линий таблицы.
-        :param stroke_width: Ширина линий таблицы.
+        Args:
+            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
+                соответственно. ((x1,y1), (x2,y2)).
+            row_count (int, optional): Количество строк таблицы. Defaults to 0.
+            row_height (Union[int, float], optional): Высота строк таблицы. Defaults to 0.2.
+            column_count (int, optional): Количество колонок таблицы. Defaults to 0.
+            visible_row_count (int, optional): Количество видимых на экране строк. Defaults to 0.
+            columns_width (tuple, optional): Ширина колонок. Для 3-х колонок выглядит,
+                как (.4, .4, .2). Defaults to None.
+            lines_color (Color, optional): Цвет линий таблицы. Defaults to BLACK.
+            stroke_width (Union[int, float], optional): Ширина линий таблицы. Defaults to 1.
+
+        Raises:
+            TableLineEmptyException: [description]
         """
         if not start_end_points:
             detail = "Can't create graph with empty start line."
@@ -74,7 +80,8 @@ class Table(VGroup):
     def _create_table(self) -> VGroup:
         """Функция построения таблицы
 
-        :return: VGroup - список из линий
+        Returns:
+            VGroup: Cписок из линий (Line).
         """
         lines = []
         y_point = self.horizontal_line[0][1]
@@ -144,20 +151,23 @@ class CustomersTable(Table):
         text: str = "",
         start_dots_values: list = None,
     ):
-        """Инициализация класса.
+        """Инициализация класса таблицы покупателей.
 
-        :param start_end_points: Левая верхняя и правая верхняя точка таблицы. ((x1, y1), (x2, y2))
-        :param row_count: Количество строк таблицы.
-        :param row_height: Высота строк таблицы.
-        :param column_count: Количество колонок таблицы.
-        :param visible_row_count: Количество видимых на экране строк.
-        :param colors: Список с цветами шариков.
-        :param bins: Количество корзин (возможных значений шариков).
-        :param text: ,
-        :param start_dots_values: Список с начальными значениями шариков,
+        Args:
+            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
+                соответственно. ((x1,y1), (x2,y2)).
+            row_count (int, optional): Количество строк таблицы. Defaults to 0.
+            row_height (Union[int, float], optional): Высота строк таблицы. Defaults to 0.5.
+            visible_row_count (int, optional):  Количество видимых на экране строк. Defaults to 0.
+            colors (list, optional): Список с цветами шариков. Defaults to None.
+            bins (Union[int, float], optional):  Количество корзин (возможных значений шариков).
+                Defaults to 0.
+            text (str, optional): Текст для добавления к таблице (Например - Покупатель).
+                Defaults to "".
+            start_dots_values (list, optional): Список с начальными значениями шариков.
+                Defaults to None.
         """
-
-        horizontal_line = [
+        self.horizontal_line = [
             ShapePoint(start_end_points[0]),
             ShapePoint(start_end_points[1]),
         ]
@@ -172,7 +182,6 @@ class CustomersTable(Table):
         self.default_color = "red"
 
         self.customers, self.dots = self._add_dots_and_customers_to_table(
-            horizontal_line=horizontal_line,
             row_count=row_count,
             row_height=row_height,
             columns_width=columns_width,
@@ -193,21 +202,26 @@ class CustomersTable(Table):
 
     def _add_dots_and_customers_to_table(
         self,
-        horizontal_line: List[ShapePoint],
         row_height: Union[int, float],
         row_count: int,
         columns_width: Tuple,
     ) -> Tuple[VGroup, VGroup]:
-        """Добавление точек в таблицу с покупателями.
+        """Метод создания шариков и текста для таблицы.
 
-        :return:
+        Args:
+            row_height (Union[int, float]): Высота строк таблицы.
+            row_count (int): Количество строк таблицы.
+            columns_width (Tuple): Ширина таблицы.
+
+        Returns:
+            Tuple[VGroup, VGroup]: Кортеж с шариками и текстом.
         """
         customers = []
         dots = []
-        y_point = horizontal_line[0][1]
+        y_point = self.horizontal_line[0][1]
         y_step = row_height
-        x_left_point = horizontal_line[0][0]
-        x_right_point = horizontal_line[1][0]
+        x_left_point = self.horizontal_line[0][0]
+        x_right_point = self.horizontal_line[1][0]
         distance = abs(x_right_point - x_left_point)
         step_x = distance * columns_width[0]
 

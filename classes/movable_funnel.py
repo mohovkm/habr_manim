@@ -4,7 +4,8 @@ from typing import Dict, Tuple, Union
 from manimlib.imports import ApplyMethod, Scene, Transform, VGroup
 from numpy import array, interp
 
-from . import Funnel, HistogramDot
+from .funnel import Funnel
+from .histogram_dot import HistogramDot
 
 
 class MovableFunnelException(Exception):
@@ -22,25 +23,44 @@ class MovableFunnel(Funnel):
     dot_padding: Union[int, float] = 0.22
     animated_slowly: int = None
 
-    def __init__(self, start_end_points: Tuple[tuple, tuple], run_time: Union[int, float], *args, **kwargs):
-        """Инициализация класса. Список всех необходимых параметров смотри в методе __init__ класса Funnel.
+    def __init__(
+        self,
+        start_end_points: Tuple[tuple, tuple],
+        run_time: Union[int, float],
+        *args,
+        **kwargs,
+    ):
+        """Инициализация класса.
+            Список всех необходимых параметров смотри в методе __init__ класса Funnel.
 
-        :param run_time: Время - насколько быстро анимировать падение шариков.
-        :param args: postiiton arguments for the Funnel class
-        :param kwargs: keyword arguments for the Funnel class
+        Args:
+            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
+                соответственно. ((x1,y1), (x2,y2)).
+            run_time (Union[int, float]): Время - насколько быстро анимировать падение шариков.
         """
-
         self.run_time = run_time
 
         super().__init__(start_end_points, *args, **kwargs)
 
-        self._next_dots_coords = {"x": self.x_funnel_center, "y": self.y_point_bottom + (self.y_bottom_shift * 2)}
+        self._next_dots_coords = {
+            "x": self.x_funnel_center,
+            "y": self.y_point_bottom + (self.y_bottom_shift * 2),
+        }
 
-    def _get_next_dots_coords(self, dot: HistogramDot) -> tuple:
+    def _get_next_dots_coords(
+        self, dot: HistogramDot
+    ) -> Union[Tuple[array, array, array], Tuple[None, None, array], Tuple[None, None, None]]:
         """Получение точек для падения шарика.
 
-        :param point: Точка, из которой высчитываем координаты
-        :return:
+        Args:
+            dot (HistogramDot):  Шарик, из которого высчитываем координаты.
+
+        Returns:
+            Union[
+                Tuple[array, array, array],
+                Tuple[None, None, array],
+                Tuple[None, None, None,]
+            ]: Кортеж из точек падения шарика.
         """
         # Получаем необходимые координаты точек воронки
         current_coord = self._next_dots_coords.get("y")
@@ -86,15 +106,14 @@ class MovableFunnel(Funnel):
         return first_point, second_point, third_point
 
     def drag_in_dots(self, scene: Scene, dots: VGroup, animate_slow: int, animate_rest: bool):
-        """Перемещение (падение) точек в воронку.
+        """Перемещение (падение) шариков в воронку.
 
-        :param scene: Сцена, на которой необходимо показывать перемещение объектов.
-        :param dots: Список из точек (шариков).
-        :param animate_slow: Количество точек (шариков), которые нужно медленно и красиво переместить.
-        :param animate_rest: Анимировать перемещение остальных точек (шариков) или нет.
-        :return: None
+        Args:
+            scene (Scene): Сцена, на которой необходимо показывать перемещение объектов.
+            dots (VGroup): Список из шариков.
+            animate_slow (int): Количество шариков, которые нужно медленно и красиво переместить.
+            animate_rest (bool): Анимировать перемещение остальных шариков или нет.
         """
-
         if animate_slow > len(dots):
             animate_slow = len(dots)
 

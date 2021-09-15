@@ -22,10 +22,14 @@ class Movable(ABC):
         super().__init__(*args, **kwargs)
 
     def _get_next_dot_coords(self, dot: HistogramDot) -> array:
-        """Получение координат для локации следующего шарика. Применяется при перемещении шариков на объект.
+        """Получение координат для локации следующего шарика.
+            Применяется при перемещении шариков на объект.
 
-        :param dot: Объект с шариком
-        :return: np.array([]) следующая локация шарика
+        Args:
+            dot (HistogramDot): Объект с шариком.
+
+        Returns:
+            array: Cледующая локация шарика.
         """
         current_coord = self._next_dots_coords.get(int(dot.value), {})
         bin_center = array([current_coord.get("x", 0), current_coord.get("y", 0), 0])
@@ -43,15 +47,15 @@ class Movable(ABC):
         run_time: Union[int, float] = None,
         delay: Union[int, float] = None,
     ):
-        """Перемещение точек в график.
+        """Перемещение шариков на график.
 
-        :param scene: Сцена, на которой необходимо показывать перемещение объектов.
-        :param dots: Список из точек (шариков).
-        :param animate_slow: Количество точек (шариков), которые нужно медленно и красиво переместить.
-        :param animate_rest: Анимировать перемещение остальных точек (шариков) или нет.
-        :param run_time: Время проигрывания перемещения.
-        :param delay: Задержка между перемещением шариков
-        :return: None
+        Args:
+            scene (Scene): Сцена, на которой необходимо показывать перемещение объектов.
+            dots (VGroup): Список из шариков.
+            animate_slow (int): Количество шариков, которые нужно медленно и красиво переместить.
+            animate_rest (bool): Анимировать перемещение остальных шариков или нет.
+            run_time (Union[int, float], optional): Время проигрывания перемещения. Defaults to None.
+            delay (Union[int, float], optional): Задержка между перемещением шариков. Defaults to None.
         """
         if not run_time:
             run_time = DEFAULT_ANIMATION_RUN_TIME

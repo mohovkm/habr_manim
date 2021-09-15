@@ -2,7 +2,7 @@ from copy import deepcopy
 from random import randint
 
 from colour import Color
-from manimlib.imports import BLACK, Dot, FadeIn, FadeOut, MovingCameraScene, Transform, VGroup
+from manimlib.imports import BLACK, Dot, FadeIn, FadeOut, Scene, Transform, VGroup
 from numpy import array
 
 from classes import (
@@ -19,7 +19,12 @@ from classes import (
 
 
 class Scenario:
-    def __init__(self, scene: MovingCameraScene):
+    def __init__(self, scene: Scene):
+        """Инициализация сценария. Для работы необходимо передать инстанс класса Scene
+
+        Args:
+            scene (Scene): Инстанс класса Scene или наследников.
+        """
         self.scene = scene
 
     def play_first_scene(self):

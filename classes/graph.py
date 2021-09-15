@@ -28,34 +28,41 @@ class Graph(ABC):
 
     def __init__(
         self,
-        horizontal_line: Tuple[tuple, tuple] = None,
+        start_end_points: Tuple[tuple, tuple] = None,
         vertical_line: Tuple[tuple, tuple] = None,
         bins: int = 1,
         annot: bool = False,
         color=BLACK,
         stroke_width=1,
     ):
-        """
+        """Инициализация графика
 
-        :param horizontal_line: Координаты горизонтальной линии ((x1, y1), (x2, y2)).
-        :param vertical_line: Координаты вертикальной линии ((x1, y1), (x2, y2)).
-        :param bins: Количество корзин на графике.
-        :param annot: Подписывать корзины или нет.
-        :param color: Цвет линий графика.
-        :param stroke_width: Ширина линий графика.
+        Args:
+            start_end_points (Tuple[tuple, tuple], optional): Левая верхняя точки и правая верхняя,
+                соответственно. ((x1,y1), (x2,y2)). Defaults to None.
+            vertical_line (Tuple[tuple, tuple], optional): Координаты вертикальной линии
+                ((x1, y1), (x2, y2)). Defaults to None.
+            bins (int, optional): Количество корзин на графике.. Defaults to 1.
+            annot (bool, optional): Подписывать корзины или нет. Defaults to False.
+            color ([type], optional): Цвет линий графика. Defaults to BLACK.
+            stroke_width (int, optional): Ширина линий графика. Defaults to 1.
+
+        Raises:
+            GraphLinesEmptyException: Исключение выбрасывается в случае, если не заданы ни вертикальная
+                ни горизонтальная линия.
         """
-        if not horizontal_line and not vertical_line:
+        if not start_end_points and not vertical_line:
             detail = "Can't create graph with empty lines."
             raise GraphLinesEmptyException(detail)
 
         # Initialise graph lines
         self.horizontal_line = None
-        if horizontal_line:
+        if start_end_points:
             self.horizontal_line = [
-                ShapePoint(horizontal_line[0]),
-                ShapePoint(horizontal_line[1]),
+                ShapePoint(start_end_points[0]),
+                ShapePoint(start_end_points[1]),
             ]
-            self.step_x = abs(horizontal_line[0][0] - horizontal_line[1][0]) / bins
+            self.step_x = abs(start_end_points[0][0] - start_end_points[1][0]) / bins
 
         self.vertical_line = None
         if vertical_line:
@@ -77,7 +84,8 @@ class Graph(ABC):
     def _prepare_next_dot_coords(self) -> dict:
         """Подготовка словаря с информацией о серединах корзин на графике.
 
-        :return: dict
+        Returns:
+            dict: словарь с предустановленными значениями центров корзин
         """
         d = {}
         start_x = self.horizontal_line[0][0]
@@ -99,9 +107,10 @@ class CategoricalGraph(Graph, VGroup):
     """Категориальный тип графика (VGroup) (Наследуется от Graph)"""
 
     def create_graph(self) -> Tuple[list, list]:
-        """Создание графика
+        """Метод создания графика
 
-        :return: lines, texts (список из линий графика и текста аннотации)
+        Returns:
+            Tuple[list, list]: список из линий графика и текста аннотации
         """
         lines = []
         texts = []
@@ -179,9 +188,10 @@ class ContinuousGraph(Graph, VGroup):
     """Непрерывный тип графика (VGroup) (Наследуется от Graph)"""
 
     def create_graph(self) -> Tuple[list, list]:
-        """Создание графика
+        """Метод создания графика
 
-        :return: lines, texts (список из линий графика и текста аннотации)
+        Returns:
+            Tuple[list, list]: список из линий графика и текста аннотации
         """
         lines = []
         texts = []

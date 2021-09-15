@@ -29,12 +29,13 @@ class HistogramDot(VGroup):
         radius: float = None,
         color: Color = None,
     ):
-        """Инициализация класса
+        """Инициализация класса шарика. Состоит из точки и текста.
 
-        :param value: Значение (текст) шарика.
-        :param point: Локация шарика на экране.
-        :param radius: Радиус шарика.
-        :param color: Цвет шарика.
+        Args:
+            value (int): Значение (текст) шарика.
+            point (array): Локация шарика на экране.
+            radius (float, optional): Радиус шарика. Defaults to None.
+            color (Color, optional): Цвет шарика. Defaults to None.
         """
         self.value = value
 

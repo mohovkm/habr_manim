@@ -29,6 +29,16 @@ class ShapePoint:
 
     @coords.setter
     def coords(self, value: Tuple[Union[int, float], Union[int, float]]):
+        """Метод - сеттер для валидации и хранения полученных координат.
+
+        Args:
+            value (Tuple[Union[int, float], Union[int, float]]): Кортеж из координат.
+
+        Raises:
+            ShapePointTypeError: Передан неверный тип данных.
+            ShapePointTooManyValuesException: Передано слишком много парамеров в кортеже
+            ShapePointTypeError: Передан неверный тип данных внутри кортежа.
+        """
         if not isinstance(value, Tuple) and not isinstance(value, ndarray):
             detail = f"coords must be a type of: [tuple, np.ndarray], got [{type(value)}] instead."
             raise ShapePointTypeError(detail)
