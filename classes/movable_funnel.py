@@ -60,7 +60,7 @@ class MovableFunnel(Funnel):
                 Tuple[None, None, None,]
             ]: Tuple with the points for the next dot move (fall).
         """
-        # Получаем необходимые координаты точек воронки
+        # Getting all needed coordinates of the funnel
         current_coord = self._next_dots_coords.get("y")
         x_left_to_bottom_right = self.left_to_bottom_right.get_all_points()[-1][0]
         x_right_to_bottom_left = self.right_to_bottom_left.get_all_points()[-1][0]
@@ -70,7 +70,7 @@ class MovableFunnel(Funnel):
         first_point = None
         second_point = None
 
-        # Ищем линию воронки, на которую будет падать шарик
+        # Looking for the Line for Dot to move (fall)
         if self.x_point_left <= point_x <= x_left_to_bottom_right:
             line = self.left_to_bottom_right
 
@@ -84,11 +84,11 @@ class MovableFunnel(Funnel):
             return None, None, None
 
         if line is not None:
-            # Получаем все X и Y линии
+            # Getting all X, Y points from the line
             line_x = [x[0] for x in line.get_all_points()]
             line_y = [x[1] for x in line.get_all_points()]
 
-            # Основная магия. Интерполируем значение Y исходя из массива точек X и Y.
+            # Where the magic happenes. We're interpolate Y from another X, Y points.
             point_y = interp(point_x, line_x, line_y, period=10)
             point_y += 0.25
 
@@ -98,7 +98,7 @@ class MovableFunnel(Funnel):
 
         third_point = array([self.x_funnel_center, current_coord, 0])
 
-        # Запоминаем текущее положение
+        # Remembering current position
         self._next_dots_coords["y"] = current_coord + dot.radius + self.dot_padding
 
         return first_point, second_point, third_point

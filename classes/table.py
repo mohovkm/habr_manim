@@ -89,9 +89,9 @@ class Table(VGroup):
         x_right_point = self.horizontal_line[1][0]
         distance = abs(x_right_point - x_left_point)
 
-        # Рисуем таблицу
+        # Drawing table
         for i in range(self.row_count + 1):
-            # Добавляем горизонтальную линию
+            # Adding horizontal line
             lines.append(
                 Line(
                     array([x_left_point, y_point, 0]),
@@ -104,7 +104,7 @@ class Table(VGroup):
             if i == self.row_count:
                 break
 
-            # Добавляем вертикальные линии
+            # Adding verical lines
             x_point = x_left_point
             for j in range(self.column_count + 1):
                 lines.append(
@@ -223,29 +223,29 @@ class CustomersTable(Table):
         distance = abs(x_right_point - x_left_point)
         step_x = distance * columns_width[0]
 
-        # Рисуем тексты и шарики
+        # Adding texts and dots
         for i in range(row_count):
 
-            # Добавляем надпись "Покупатель"
+            # Adding text to the table
             customer = HistogramText(
                 f"{self.text} {i+1}",
                 color=BLACK,
             )
 
-            # Меняем размер текста
+            # Changind text size
             customer.scale(self.text_scale)
 
-            # Передвигаем текст в ячейку
+            # Moving text to the table cell
             customer.move_to(
                 array([x_left_point + 0.2, y_point - (y_step / 2), 0]),
-                aligned_edge=LEFT_SIDE,  # Выравниваем относительно левой части объекта
+                aligned_edge=LEFT_SIDE,  # Aligning it at the left side of the cell
             )
             customers.append(customer)
 
-            # Настраиваем генерацию рандома
+            # Forcing to generate always the same numbers
             random.seed(i + 1)
 
-            # Добавляем значение точки (шарика)
+            # Adding dot value
             if self.start_dots_values and i < len(self.start_dots_values):
                 dot_value = self.start_dots_values[i]
             else:
@@ -258,7 +258,8 @@ class CustomersTable(Table):
                 dot_color = self.default_color
             else:
                 dot_color = self.colors[int(dot_value) - 1]
-            # Создаем шарик
+
+            # Adding dot
             dot = HistogramDot(
                 value=dot_value,
                 point=array([x_left_point + step_x + 0.3, y_point - (y_step / 2), 0]),

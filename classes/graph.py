@@ -115,7 +115,7 @@ class CategoricalGraph(Graph, VGroup):
         texts = []
 
         if self.horizontal_line:
-            # Добавляем горизонтальную линию
+            # Adding horizontal line
             line = Line(
                 self.horizontal_line[0].coords,
                 self.horizontal_line[1].coords,
@@ -125,7 +125,7 @@ class CategoricalGraph(Graph, VGroup):
 
             lines.append(line)
 
-            # Рисуем вертикальные линии
+            # Adding verical lines
             start_x = self.horizontal_line[0].coords[0]
             y_coord = self.horizontal_line[0].coords[1]
             for i in range(1, self.bins + 2):
@@ -138,7 +138,7 @@ class CategoricalGraph(Graph, VGroup):
                     )
                 )
 
-                # Добавляем надписи для корзин
+                # Adding text for the bins
                 if self.annot and (i != self.bins + 1):
                     text = HistogramText(str(i), color=BLACK)
                     text.scale(self.text_scale)
@@ -148,7 +148,7 @@ class CategoricalGraph(Graph, VGroup):
                 start_x += self.step_x
 
             if self.vertical_line:
-                # Добавляем вертикальную линию
+                # Adding vertical line
                 line = Line(
                     self.vertical_line[0].coords,
                     self.vertical_line[1].coords,
@@ -158,7 +158,7 @@ class CategoricalGraph(Graph, VGroup):
 
                 lines.append(line)
 
-                # Рисуем горизонтальные линии
+                # Adding horizontal line
                 start_y = self.vertical_line[0].coords[1]
                 x_coord = self.vertical_line[0].coords[0]
 
@@ -196,7 +196,7 @@ class ContinuousGraph(Graph, VGroup):
         texts = []
 
         if self.horizontal_line:
-            # Добавляем горизонтальную линию
+            # Adding horizontal line
             lines.append(
                 Line(
                     self.horizontal_line[0].coords,
@@ -207,7 +207,7 @@ class ContinuousGraph(Graph, VGroup):
             )
 
             y_coord = self.horizontal_line[0].coords[1]
-            # Добавляем 2 вертикальные линии
+            # Adding 2 vertical lines
             lines.extend(
                 [
                     Line(
@@ -236,7 +236,7 @@ class ContinuousGraph(Graph, VGroup):
                 texts.extend([text0, text1])
 
         if self.vertical_line:
-            # Добавляем вертикальную линию
+            # Adding vertical line
             lines.append(
                 Line(
                     self.vertical_line[0].coords,
@@ -247,7 +247,7 @@ class ContinuousGraph(Graph, VGroup):
             )
 
             x_coord = self.vertical_line[0].coords[0]
-            # Добавляем 2 горизонтальные линии
+            # Adding 2 horizontal lines
             lines.extend(
                 [
                     Line(

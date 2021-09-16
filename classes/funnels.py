@@ -58,12 +58,12 @@ class Funnels(VGroup):
         x_end_point = x_start_point + step
         y_point = self.left_top_point[1]
 
-        # Создаем массив с текстом для аннотаций
+        # Creating list for the annotation texts
         annot_step = int(self.bins / self.count)
         annot_bins = [i for i in range(0, int(self.bins) + annot_step, annot_step)]
         annots = [f"{x+1}–{y}" for x, y in zip(annot_bins[:-1], annot_bins[1:])]
 
-        # Создаем воронки в цикле и сохраянем их во внутреннюю переменную
+        # Creating funnels in cycle
         for i in range(self.count):
             self.funnels.append(
                 funnel(
@@ -97,8 +97,7 @@ class Funnels(VGroup):
         """
         if any(not isinstance(x, MovableFunnel) for x in self.funnels):
             raise FunnelsExeption('method "drag_in_dots" allowed only for "MovableFunnel"')
-        # Сортируем шарики по возрастанию значений, чтобы анимация проигрывалась от
-        # меньшего к большему
+        # We are sorting dots ascending to be able to play animation from smallest dot to biggest.
         _dots = VGroup(*sorted(dots, key=lambda x: x.value))
 
         for funnel in self.funnels:

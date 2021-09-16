@@ -45,23 +45,23 @@ class HistogramDot(VGroup):
             color = self.colors.get(value, WHITE)
 
         dot = Dot(
-            point=point,  # Координаты на плоскости
-            radius=self.radius,  # Радиус шарика
-            color=color,  # Цвет шарика
-            stroke_color=BLACK,  # Цвет границы
-            stroke_width=1,  # Ширина границы
+            point=point,
+            radius=self.radius,
+            color=color,
+            stroke_color=BLACK,
+            stroke_width=1,
         )
         text = HistogramText(str(self.value), color=BLACK)
 
         self.point = ShapePoint(point)
 
-        # Меняем размер текста, чтобы влез в шарик
+        # We are changin text size to be able to add it inside dot
         if isinstance(self.value, float):
             text.scale(self.dot_scale_float)
         else:
             text.scale(self.dot_scale_int)
 
-        # Двигаем текст в центр шарика
+        # Moving text inside dot
         text.move_to(dot.get_center())
 
         super().__init__(dot, text)

@@ -1,15 +1,14 @@
-# Импортируем необходимые библиотеки.
 import os
 from pathlib import Path
 
-# Вместо обычной CameraScene импортируем MovingCamera, чтобы иметь возможность
-# перемещать сцену
+# We are importing MovingCamera, instead of CameraScene to be albe to
+# move camera around.
 from manimlib.imports import MovingCameraScene
 
 from config import SCENE_BACKGROUND_COLOR
 from scenario import Scenario
 
-# Добавляем флаги для запуски сборки анимации
+# Adding flags to build animation.
 # -l (low quality)
 # -s (only screenshot)
 RESOLUTION = ""
@@ -18,8 +17,8 @@ SCENE = "MainScene"
 
 
 class MainScene(MovingCameraScene):
-    # По умолчанию фон видео будет черным. Изменить текущее поведение можно
-    # с помощью переменной класса "CONFIG"
+    # Scene background is black by default, to change it we need to
+    # override CONFIG dictionary.
     CONFIG = {
         "camera_config": {
             "background_color": SCENE_BACKGROUND_COLOR,

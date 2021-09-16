@@ -20,72 +20,76 @@ from classes import (
 
 class Scenario:
     def __init__(self, scene: Scene):
-        """Инициализация сценария. Для работы необходимо передать инстанс класса Scene
+        """Main scenario class initialisation.
 
         Args:
-            scene (Scene): Инстанс класса Scene или наследников.
+            scene (Scene): Instance of the Scene class.
         """
         self.scene = scene
 
     def play_first_scene(self):
-        # Для начала создадим шарики и сохраним в переменной
+        # We are creating list for storing dots
         dots = []
 
-        # Столбики с шариками будут располагаться один за другим, поэтому позиция X
-        # будет высчитываться динамически
+        # Columns with dots will be placed one after another, so X position
+        # will be calculated automatically
         start_x = -4
 
-        # Задаем размер шарика
+        # Dot size
         point_radius = 0.3
 
         for _ in range(5):
-            # шарики будут располагаться один над другим, поэтому позиция Y
-            # будет высчитываться динамически
+            # Dots inside coulumns will be placed one above the other, so Y position
+            # will be calculated automatically
             start_y = -2
 
             for _ in range(randint(2, 6)):
                 dots.append(
                     Dot(
-                        point=array([start_x, start_y, 0]),  # Координаты расположения, задаются в x,y,z плоскости
-                        radius=point_radius,  # Размер шарика
-                        stroke_width=1,  # Ширина обводки
-                        stroke_color=BLACK,  # Цвет обводки
-                        color="#7fcc81",  # Цвет шарика
+                        point=array([start_x, start_y, 0]),  # Coordinates on the screen, assigned with x,y,z
+                        radius=point_radius,  # Dot size
+                        stroke_width=1,  # Border width
+                        stroke_color=BLACK,  # Border color
+                        color="#7fcc81",  # Dot color
                     )
                 )
                 start_y += 0.7
             start_x += 2
 
-        # Группируем шарики, преобразовывая в элемент сцены VGroup
+        # Grouping dots into VGroup that is the Scene's element
         dots = VGroup(*dots)
 
-        # Добавляем шарики на экран
+        # Adding dots to the scene
         self.scene.add(dots)
 
-        # Создаем надпись. Для текста используем свой перегруженный класс,
-        # чтобы применился необходимый нам шрифт
+        # Creating text. We are using our own overriden class.
         heading = HistogramText("Гистограммы", color=BLACK)
 
-        # Меняем размер текста методом scale
+        # Changin text size with scale
         heading.scale(2)
 
-        # Перемещаем текст на позицию заголовка (чуть выше середины)
+        # Changing text location
         heading.move_to(array([0, 2.5, 0]))
 
-        # Проигрываем появление текста
+        # Playing animation for the text appearing
         self.scene.play(FadeIn(heading))
 
-        # Ждем 2 секунды
+        # Waiting
         self.scene.wait(2)
 
-        # Проигрываем исчезновение точек и текста
+        # Playing animation for the text disappearing
         self.scene.play(FadeOut(dots), FadeOut(heading))
 
-        # Ждем 1 секунду
+        # Waiting
         self.scene.wait(1)
 
     def play_second_scene(self):
-        table = CustomersTable(((-2, 2), (2, 2)), row_count=10, visible_row_count=5, bins=2)
+        table = CustomersTable(
+            ((-2, 2), (2, 2)),
+            row_count=10,
+            visible_row_count=5,
+            bins=2,
+        )
 
         self.scene.play(FadeIn(table))
 
@@ -124,10 +128,10 @@ class Scenario:
         self.scene.wait(3)
 
     def play_fifth_scene(self):
-        # Начальные значения для точек таблицы, чтобы не было рандома
+        # Initial dot values, to keep them the same over several animation builds
         start_dot_values = [1, 2, 1, 3, 4, 2, 1]
 
-        # Инициализируем таблицу
+        # Table initialisation
         table = CustomersTable(
             ((-6, 2), (-2, 2)),
             row_count=10,
@@ -136,7 +140,7 @@ class Scenario:
             start_dots_values=start_dot_values,
         )
 
-        # Инициализируем график
+        # Graph initialisation
         x_graph = MovableCategoricalGraph(
             ((0, 0), (4, 0)),
             None,
@@ -144,12 +148,12 @@ class Scenario:
             annot=True,
         )
 
-        # Добавляем на экран таблицу и график
+        # Playing animation for the table and graph appearing
         self.scene.play(FadeIn(table), FadeIn(x_graph))
 
         self.scene.wait(2)
 
-        # Перемещаем точки из таблицы на график
+        # Moving dots from the table to the graph
         x_graph.drag_in_dots(self.scene, dots=table.dots, animate_slow=3, animate_rest=True)
 
         self.scene.wait(3)
@@ -167,10 +171,8 @@ class Scenario:
             height=3,
         )
 
-        # Начальные значения для точек таблицы, чтобы не было рандома
         start_dot_values = [1, 2, 1, 3, 4, 2, 1]
 
-        # Инициализируем таблицу
         table = CustomersTable(
             ((-5, 2), (-1, 2)),
             row_count=3,
@@ -179,26 +181,24 @@ class Scenario:
             start_dots_values=start_dot_values,
         )
 
-        # Добавляем на сцену объекты
         self.scene.add(funnels, table)
 
-        # Перемещаем шарики в воронки
         funnels.drag_in_dots(scene=self.scene, dots=table.dots, animate_slow=3, animate_rest=False)
 
     def play_whole_scenario(self):
-        # Выставляем значения шариков
+        # Dot bins maximum value
         bins = 100
 
-        # Добавляем цвета для значений шариков
+        # Adding dot colors (from green to red)
         dot_colors = list(Color("#7fcc81").range_to("#ff7555", int(bins)))
 
-        # Определяем, с каких значений начинать таблицу
+        # Initial dot values, to keep them the same over several animation builds
         start_dots_values = [31, 25, 63, 47, 82, 25, 49, 99, 21, 33, 37]
 
-        # Текст в таблице (Заказчик/Покупатель...)
+        # Custom text for the table (Customer/buyer)
         table_text = "Заказчик"
 
-        # Инициализируем таблицу
+        # Table initialisation
         table = CustomersTable(
             ((-6.5, 3), (-2.5, 3)),
             row_count=30,
@@ -209,7 +209,7 @@ class Scenario:
             text=table_text,
         )
 
-        # Инициализируем график
+        # Graph initialisation
         x_graph = MovableContinuousGraph(
             ((-2, -3), (6.5, -3)),
             None,
@@ -217,7 +217,7 @@ class Scenario:
             annot=True,
         )
 
-        # Добавляем второй график (на всю ширину экрана)
+        # New graph that will be onthe whole screen width
         x_graph_second_position = MovableContinuousGraph(
             ((-6.5, -3), (6.5, -3)),
             None,
@@ -225,15 +225,15 @@ class Scenario:
             annot=True,
         )
 
-        # Копируем все шарики (необходимо для дальнейших преобразований)
+        # Copying dots. This for the future needs.
         dots_second_position = deepcopy(table.dots)
 
-        # Добавляем на экран таблицу и первый график
+        # Playing animations
         self.scene.play(FadeIn(table), FadeIn(x_graph))
 
         self.scene.wait(2)
 
-        # Перемещаем точки из таблицы на график
+        # Moving dots from table to graph
         x_graph.drag_in_dots(
             self.scene,
             dots=table.dots,
@@ -243,10 +243,10 @@ class Scenario:
 
         self.scene.wait(3)
 
-        # Убираем с экрана таблицу с покупателями
+        # Removing graph
         self.scene.play(FadeOut(table.lines), FadeOut(table.customers))
 
-        # Перемещаем шарики из 1-го графика во 2-й график
+        # Moving dots from first graph to the second
         x_graph_second_position.drag_in_dots(
             scene=self.scene,
             dots=dots_second_position,
@@ -254,7 +254,7 @@ class Scenario:
             animate_rest=False,
         )
 
-        # Перемещаем на экране график1 в график2 и шарики1 в шарики2
+        # Playing animation with moving graph from position 1 to position 2, and same for the dots.
         self.scene.play(
             Transform(x_graph, x_graph_second_position),
             Transform(table.dots, dots_second_position),
@@ -262,7 +262,7 @@ class Scenario:
 
         self.scene.wait(3)
 
-        # Добавляем объект с воронками
+        # Adding funnels
         funnels = Funnels(
             start_end_points=((-6.5, -4), (6.5, -4)),
             funnel=MovableFunnel,
@@ -274,15 +274,15 @@ class Scenario:
             height=4,
         )
 
-        # Показываем воронки на экране
+        # Adding funnels to the screen
         self.scene.add(funnels)
 
-        # Перемещаем камеру вниз (график уходит вверх)
+        # Moving camer to the bottom
         self.scene.play(self.scene.camera_frame.move_to, array([0, -5.5, 0]))
 
         self.scene.wait(1)
 
-        # Перемещаем шарики с графика в воронки
+        # Moving dots from grpah to funnels
         funnels.drag_in_dots(
             scene=self.scene,
             dots=table.dots,
@@ -292,7 +292,7 @@ class Scenario:
 
         self.scene.wait(3)
 
-        # Удаляем со сцены объекты
+        # Removing all objects from scene
         self.scene.play(
             FadeOut(funnels),
             FadeOut(table.dots),
@@ -300,7 +300,7 @@ class Scenario:
             FadeOut(x_graph_second_position),
         )
 
-        # Возвращаем сцену на предыдущее место
+        # Moving scene back to center
         self.scene.play(self.scene.camera_frame.move_to, array([0, 0, 0]))
 
         self.scene.wait(1)
