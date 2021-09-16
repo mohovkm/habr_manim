@@ -17,7 +17,7 @@ class LineNotFoundException(MovableFunnelException):
 
 
 class MovableFunnel(Funnel):
-    """Класс для взаимодействия воронки с шариками"""
+    """Overriden Funnel class to add 'movable' functionality"""
 
     _next_dot_coords: Dict[str, Union[int, float]] = {}
     dot_padding: Union[int, float] = 0.22
@@ -30,13 +30,11 @@ class MovableFunnel(Funnel):
         *args,
         **kwargs,
     ):
-        """Инициализация класса.
-            Список всех необходимых параметров смотри в методе __init__ класса Funnel.
+        """Class initialisation. It recieves all parameters that Funnel class needs.
 
         Args:
-            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
-                соответственно. ((x1,y1), (x2,y2)).
-            run_time (Union[int, float]): Время - насколько быстро анимировать падение шариков.
+            start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
+            run_time (Union[int, float]): How quickly we need to animate dots.
         """
         self.run_time = run_time
 
@@ -50,17 +48,17 @@ class MovableFunnel(Funnel):
     def _get_next_dots_coords(
         self, dot: HistogramDot
     ) -> Union[Tuple[array, array, array], Tuple[None, None, array], Tuple[None, None, None]]:
-        """Получение точек для падения шарика.
+        """Getting points for dots to move.
 
         Args:
-            dot (HistogramDot):  Шарик, из которого высчитываем координаты.
+            dot (HistogramDot): Dot from which we will calculate current coordinates.
 
         Returns:
             Union[
                 Tuple[array, array, array],
                 Tuple[None, None, array],
                 Tuple[None, None, None,]
-            ]: Кортеж из точек падения шарика.
+            ]: Tuple with the points for the next dot move (fall).
         """
         # Получаем необходимые координаты точек воронки
         current_coord = self._next_dots_coords.get("y")
@@ -106,13 +104,13 @@ class MovableFunnel(Funnel):
         return first_point, second_point, third_point
 
     def drag_in_dots(self, scene: Scene, dots: VGroup, animate_slow: int, animate_rest: bool):
-        """Перемещение (падение) шариков в воронку.
+        """Moving dots from anywhere to the funnel.
 
         Args:
-            scene (Scene): Сцена, на которой необходимо показывать перемещение объектов.
-            dots (VGroup): Список из шариков.
-            animate_slow (int): Количество шариков, которые нужно медленно и красиво переместить.
-            animate_rest (bool): Анимировать перемещение остальных шариков или нет.
+            scene (Scene): Scene where all our objects located.
+            dots (VGroup): List od dots to move.
+            animate_slow (int): How much dots we need to animate slowly.
+            animate_rest (bool): Do we need to move rest of the dots or not.
         """
         if animate_slow > len(dots):
             animate_slow = len(dots)

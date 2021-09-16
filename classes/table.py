@@ -19,7 +19,7 @@ class TableLineEmptyException(TableException):
 
 
 class Table(VGroup):
-    """Класс таблицы (VGroup). Таблица состоит из линий (Line)"""
+    """Table class. Built from Lines"""
 
     def __init__(
         self,
@@ -34,22 +34,21 @@ class Table(VGroup):
         *args,
         **kwargs,
     ):
-        """Инициализация класса таблицы
+        """Class initialisation
 
         Args:
-            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
-                соответственно. ((x1,y1), (x2,y2)).
-            row_count (int, optional): Количество строк таблицы. Defaults to 0.
-            row_height (Union[int, float], optional): Высота строк таблицы. Defaults to 0.2.
-            column_count (int, optional): Количество колонок таблицы. Defaults to 0.
-            visible_row_count (int, optional): Количество видимых на экране строк. Defaults to 0.
-            columns_width (tuple, optional): Ширина колонок. Для 3-х колонок выглядит,
-                как (.4, .4, .2). Defaults to None.
-            lines_color (Color, optional): Цвет линий таблицы. Defaults to BLACK.
-            stroke_width (Union[int, float], optional): Ширина линий таблицы. Defaults to 1.
+            start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
+            row_count (int, optional): Table row count. Defaults to 0.
+            row_height (Union[int, float], optional): Table row height. Defaults to 0.2.
+            column_count (int, optional): Table column count. Defaults to 0.
+            visible_row_count (int, optional): Table visible row count. Defaults to 0.
+            columns_width (tuple, optional): Table column width. For 3 columns it looks like
+                (.4, .4, .2). Defaults to None.
+            lines_color (Color, optional): Table lines color. Defaults to BLACK.
+            stroke_width (Union[int, float], optional): Table lines width. Defaults to 1.
 
         Raises:
-            TableLineEmptyException: [description]
+            TableLineEmptyException: Raises when no start_end_points were passed.
         """
         if not start_end_points:
             detail = "Can't create graph with empty start line."
@@ -138,7 +137,7 @@ class Table(VGroup):
 
 
 class CustomersTable(Table):
-    """Перегрузка стандартной таблицы. Добавление текста (customers) и шариков (dots)"""
+    """Overriden Table class. Custom text and dots were added."""
 
     def __init__(
         self,
@@ -151,20 +150,19 @@ class CustomersTable(Table):
         text: str = "",
         start_dots_values: list = None,
     ):
-        """Инициализация класса таблицы покупателей.
+        """Class initialisation.
 
         Args:
-            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
-                соответственно. ((x1,y1), (x2,y2)).
-            row_count (int, optional): Количество строк таблицы. Defaults to 0.
-            row_height (Union[int, float], optional): Высота строк таблицы. Defaults to 0.5.
-            visible_row_count (int, optional):  Количество видимых на экране строк. Defaults to 0.
-            colors (list, optional): Список с цветами шариков. Defaults to None.
-            bins (Union[int, float], optional):  Количество корзин (возможных значений шариков).
+            start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
+            row_count (int, optional): Table row count. Defaults to 0.
+            row_height (Union[int, float], optional): Table row height. Defaults to 0.2.
+            visible_row_count (int, optional): Table visible row count. Defaults to 0.
+            colors (list, optional): List with dot colors. Defaults to None.
+            bins (Union[int, float], optional): Count of posiible dots values.
                 Defaults to 0.
-            text (str, optional): Текст для добавления к таблице (Например - Покупатель).
+            text (str, optional): Text for adding to the table. Ex "Customer"
                 Defaults to "".
-            start_dots_values (list, optional): Список с начальными значениями шариков.
+            start_dots_values (list, optional): List with inital values for the dots.
                 Defaults to None.
         """
         self.horizontal_line = [
@@ -206,15 +204,15 @@ class CustomersTable(Table):
         row_count: int,
         columns_width: Tuple,
     ) -> Tuple[VGroup, VGroup]:
-        """Метод создания шариков и текста для таблицы.
+        """Method for creating dots and texts.
 
         Args:
-            row_height (Union[int, float]): Высота строк таблицы.
-            row_count (int): Количество строк таблицы.
-            columns_width (Tuple): Ширина таблицы.
+            row_height (Union[int, float]): Table rows height.
+            row_count (int): Table rows count.
+            columns_width (Tuple): Table rows width.
 
         Returns:
-            Tuple[VGroup, VGroup]: Кортеж с шариками и текстом.
+            Tuple[VGroup, VGroup]: Tuple with all dots and texts.
         """
         customers = []
         dots = []

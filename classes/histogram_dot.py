@@ -1,15 +1,15 @@
-from typing import Dict
+from typing import Dict, Union
 
 from colour import Color
 from manimlib.imports import BLACK, WHITE, Dot, VGroup
-from numpy import array
+from numpy import ndarray
 
 from .histogram_text import HistogramText
 from .shape_point import ShapePoint
 
 
 class HistogramDot(VGroup):
-    """Класс точки (шарика) Vgroup. Отличается от стандартного Dot тем, что содержит: Dot, Text и преднастраивает их."""
+    """This class contains Dot, Text and all needed info that we want, such as 'value'"""
 
     colors: Dict[int, str] = {
         1: "#7FCC81",  # green
@@ -18,24 +18,24 @@ class HistogramDot(VGroup):
         4: "#FF7555",  # red
     }
 
-    dot_scale_float: float = 0.25
-    dot_scale_int: int = 0.4
-    radius: int = 0.2
+    dot_scale_float: Union[int, float] = 0.25
+    dot_scale_int: Union[int, float] = 0.4
+    radius: Union[int, float] = 0.2
 
     def __init__(
         self,
         value: int,
-        point: array,
+        point: ndarray,
         radius: float = None,
         color: Color = None,
     ):
-        """Инициализация класса шарика. Состоит из точки и текста.
+        """Class initialisation.
 
         Args:
-            value (int): Значение (текст) шарика.
-            point (array): Локация шарика на экране.
-            radius (float, optional): Радиус шарика. Defaults to None.
-            color (Color, optional): Цвет шарика. Defaults to None.
+            value (int): Text of the dot.
+            point (array): Location on the screen.
+            radius (float, optional): Dot radius. Defaults to None.
+            color (Color, optional): Dot color. Defaults to None.
         """
         self.value = value
 

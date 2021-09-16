@@ -2,16 +2,12 @@
 import os
 from pathlib import Path
 
+# Вместо обычной CameraScene импортируем MovingCamera, чтобы иметь возможность
+# перемещать сцену
 from manimlib.imports import MovingCameraScene
 
 from config import SCENE_BACKGROUND_COLOR
-
-# Из папки с классами импортируем наш созданный класс
 from scenario import Scenario
-
-# Вместо обычной CameraScene импортируем MovingCamera, чтобы иметь возможность
-# перемещать сцену
-
 
 # Добавляем флаги для запуски сборки анимации
 # -l (low quality)

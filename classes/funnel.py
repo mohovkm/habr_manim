@@ -21,18 +21,17 @@ class Funnel(VGroup):
         lines_color: Color = BLACK,
         stroke_width: Union[int, float] = 1,
     ):
-        """Инициализация воронки.
+        """Funnel initialisation.
 
         Args:
-            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
-                соответственно. ((x1,y1), (x2,y2)).
-            height (Union[int, float]): Высота воронки.
-            point_radius (Union[int, float]): Радиус шарика. Нужен для того, чтобы понять,
-                какой шириниы должно быть горлышко воронки.
-            annot (bool, optional): Подписывать воронки или нет. Defaults to False.
-            annot_text (str, optional): Текст подписи воронок. Defaults to "".
-            lines_color (Color, optional): Цвет линий воронок. Defaults to BLACK.
-            stroke_width (Union[int, float], optional): Толщина линий воронок. Defaults to 1.
+            start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
+            height (Union[int, float]): Funnel height.
+            point_radius (Union[int, float]): Point radius. With that value we could calculate the opening
+                of the funnel.
+            annot (bool, optional): Do we need to annotate funnel or not. Defaults to False.
+            annot_text (str, optional): Text to annotate funnel. Defaults to "".
+            lines_color (Color, optional): Lines color for the funnel. Defaults to BLACK.
+            stroke_width (Union[int, float], optional): Line width for the funnel. Defaults to 1.
         """
         self.left_top_point = ShapePoint(start_end_points[0])
         self.right_top_point = ShapePoint(start_end_points[1])

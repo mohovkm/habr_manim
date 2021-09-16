@@ -25,16 +25,15 @@ class Funnels(VGroup):
         *args,
         **kwargs,
     ):
-        """Объект - констурктор воронок. Вместе с основными аргументами для текущего класса
-        передаются так же все необходимые аргументы для инициализации класса "funnel".
+        """Object-constructor for the funnels. Inside init you could pass all needed variables that will be
+            passed to the Funnel init as well.
 
         Args:
-            start_end_points (Tuple[tuple, tuple]): Левая верхняя точки и правая верхняя,
-                соответственно. ((x1,y1), (x2,y2))
-            funnel (Funnel): Класс для построения воронок. Должен наследовать Funnel.
-            count (int): Количество воронок.
-            bins (Union[int, float]): Количество корзин для воронок
-            annot (bool, optional): Подписывать воронки или нет. Defaults to False.
+            start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
+            funnel (Funnel): Class for the funnel building. Must be inherited from Funnel.
+            count (int): Funnels count.
+            bins (Union[int, float]): Bins count for funnels.
+            annot (bool, optional): Annotate funnels or not. Defaults to False.
 
         Example:
             funnels = Funnels(
@@ -84,21 +83,20 @@ class Funnels(VGroup):
         super().__init__(*self.funnels)
 
     def drag_in_dots(self, scene: Scene, dots: VGroup, animate_slow: int, animate_rest: bool):
-        """Метод для перемещения точек в воронку. Вызывает такой же метод drag_in_dots
-        на каждой из воронок класса.
+        """Method for moving dots into funnels. Calls the same method drag_in_dots for every funnel
+            in self.funnels.
 
         Args:
-            scene (Scene): Класс сцены.
-            dots (VGroup): Точки, которые необходимо переместить.
-            animate_slow (int): Сколько точек анимировать по очереди (падение).
-            animate_rest (bool): Перемещать остальные точки или нет.
+            scene (Scene): Scene class.
+            dots (VGroup): Dots that we need to move.
+            animate_slow (int): How much dots we need to animate slowly.
+            animate_rest (bool): Do we need to move rest of the dots or not.
 
         Raises:
-            FunnelsExeption: Исключение выбрасывается, если воронки были созданы не
-                через MovableFunnel
+            FunnelsExeption: Raises when funnels were not created with MovableFunnel class.
         """
         if any(not isinstance(x, MovableFunnel) for x in self.funnels):
-            raise FunnelsExeption('метод "drag_in_dots" доступен только для "MovableFunnel"')
+            raise FunnelsExeption('method "drag_in_dots" allowed only for "MovableFunnel"')
         # Сортируем шарики по возрастанию значений, чтобы анимация проигрывалась от
         # меньшего к большему
         _dots = VGroup(*sorted(dots, key=lambda x: x.value))

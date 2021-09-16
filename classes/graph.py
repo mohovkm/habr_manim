@@ -17,7 +17,7 @@ class GraphLinesEmptyException(GraphException):
 
 
 class Graph(ABC):
-    """Класс для получения и отрисовки графика (график состоит из линий(Line))"""
+    """Class for drawing Graph"""
 
     bins: int
     color: str
@@ -35,21 +35,20 @@ class Graph(ABC):
         color=BLACK,
         stroke_width=1,
     ):
-        """Инициализация графика
+        """Graph initialisation
 
         Args:
-            start_end_points (Tuple[tuple, tuple], optional): Левая верхняя точки и правая верхняя,
-                соответственно. ((x1,y1), (x2,y2)). Defaults to None.
-            vertical_line (Tuple[tuple, tuple], optional): Координаты вертикальной линии
+            start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
+                Defaults to None.
+            vertical_line (Tuple[tuple, tuple], optional): Vertical line coordinates
                 ((x1, y1), (x2, y2)). Defaults to None.
-            bins (int, optional): Количество корзин на графике.. Defaults to 1.
-            annot (bool, optional): Подписывать корзины или нет. Defaults to False.
-            color ([type], optional): Цвет линий графика. Defaults to BLACK.
-            stroke_width (int, optional): Ширина линий графика. Defaults to 1.
+            bins (int, optional): Bins count for the graph. Defaults to 1.
+            annot (bool, optional): Do we need to annotate bins or not. Defaults to False.
+            color ([type], optional): Graph lines color. Defaults to BLACK.
+            stroke_width (int, optional): Graph lines width. Defaults to 1.
 
         Raises:
-            GraphLinesEmptyException: Исключение выбрасывается в случае, если не заданы ни вертикальная
-                ни горизонтальная линия.
+            GraphLinesEmptyException: Raises when start_end_points and vertical_line weren't passed.
         """
         if not start_end_points and not vertical_line:
             detail = "Can't create graph with empty lines."
@@ -82,10 +81,10 @@ class Graph(ABC):
         super().__init__(*lines, *texts)
 
     def _prepare_next_dot_coords(self) -> dict:
-        """Подготовка словаря с информацией о серединах корзин на графике.
+        """Dict preparation with information about bins center.
 
         Returns:
-            dict: словарь с предустановленными значениями центров корзин
+            dict: Dictionary with filled bins center coordinates.
         """
         d = {}
         start_x = self.horizontal_line[0][0]
@@ -104,13 +103,13 @@ class Graph(ABC):
 
 
 class CategoricalGraph(Graph, VGroup):
-    """Категориальный тип графика (VGroup) (Наследуется от Graph)"""
+    """Categorical Graph. Inherited from Graph"""
 
     def create_graph(self) -> Tuple[list, list]:
-        """Метод создания графика
+        """Realisation of create_graph method.
 
         Returns:
-            Tuple[list, list]: список из линий графика и текста аннотации
+            Tuple[list, list]: Tuple of list with lines and texts.
         """
         lines = []
         texts = []
@@ -185,13 +184,13 @@ class CategoricalGraph(Graph, VGroup):
 
 
 class ContinuousGraph(Graph, VGroup):
-    """Непрерывный тип графика (VGroup) (Наследуется от Graph)"""
+    """Continuous Graph. Inherited from Graph"""
 
     def create_graph(self) -> Tuple[list, list]:
-        """Метод создания графика
+        """Realisation of create_graph method.
 
         Returns:
-            Tuple[list, list]: список из линий графика и текста аннотации
+            Tuple[list, list]: Tuple of list with lines and texts.
         """
         lines = []
         texts = []

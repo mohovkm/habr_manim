@@ -1,35 +1,33 @@
 from abc import ABC
 from copy import deepcopy
-from typing import Union
+from typing import Dict, Union
 
 from manimlib.imports import DEFAULT_ANIMATION_RUN_TIME, ApplyMethod, Scene, Transform, VGroup
-from numpy import array
+from numpy import array, ndarray
 
 from .graph import CategoricalGraph, ContinuousGraph
 from .histogram_dot import HistogramDot
 
 
 class Movable(ABC):
-    """Абстрактный класс для придатия объекту возможности перемещения шариков к нему"""
+    """Abstract class to add 'movable' functionality to the granp"""
 
-    _next_dot_coords = {}
-    dot_padding = 0
+    _next_dot_coords: Dict[Union[int, float], Dict[str, Union[int, float]]] = {}
+    dot_padding: Union[int, float] = 0
 
     def __init__(self, *args, **kwargs):
-        """Инициализация класса"""
         self._next_dots_coords = self._prepare_next_dot_coords()
 
         super().__init__(*args, **kwargs)
 
-    def _get_next_dot_coords(self, dot: HistogramDot) -> array:
-        """Получение координат для локации следующего шарика.
-            Применяется при перемещении шариков на объект.
+    def _get_next_dot_coords(self, dot: HistogramDot) -> ndarray:
+        """Getting points for dots to move.
 
         Args:
-            dot (HistogramDot): Объект с шариком.
+            dot (HistogramDot): Dot from which we will calculate current coordinates.
 
         Returns:
-            array: Cледующая локация шарика.
+            array: Next dot location.
         """
         current_coord = self._next_dots_coords.get(int(dot.value), {})
         bin_center = array([current_coord.get("x", 0), current_coord.get("y", 0), 0])
@@ -50,12 +48,12 @@ class Movable(ABC):
         """Перемещение шариков на график.
 
         Args:
-            scene (Scene): Сцена, на которой необходимо показывать перемещение объектов.
-            dots (VGroup): Список из шариков.
-            animate_slow (int): Количество шариков, которые нужно медленно и красиво переместить.
-            animate_rest (bool): Анимировать перемещение остальных шариков или нет.
-            run_time (Union[int, float], optional): Время проигрывания перемещения. Defaults to None.
-            delay (Union[int, float], optional): Задержка между перемещением шариков. Defaults to None.
+            scene (Scene): Scene where all our objects located.
+            dots (VGroup): List od dots to move.
+            animate_slow (int): How much dots we need to animate slowly.
+            animate_rest (bool): Do we need to move rest of the dots or not.
+            run_time (Union[int, float]): How quickly we need to animate dots. Defaults to None.
+            delay (Union[int, float], optional): Delay between animations. Defaults to None.
         """
         if not run_time:
             run_time = DEFAULT_ANIMATION_RUN_TIME
@@ -85,8 +83,8 @@ class Movable(ABC):
 
 
 class MovableContinuousGraph(ContinuousGraph, Movable):
-    """Непрерывный график, который может перемещать к себе шарики."""
+    """Continious graph that could move dots"""
 
 
 class MovableCategoricalGraph(CategoricalGraph, Movable):
-    """Категориальный график, который может перемещать к себе шарики."""
+    """Categorical graph that could move dots"""

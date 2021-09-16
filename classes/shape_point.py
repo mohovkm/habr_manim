@@ -16,9 +16,9 @@ class ShapePointTooManyValuesException(ShapePointException):
 
 
 class ShapePoint:
-    """Класс с информацией о координатах точки на экране"""
+    """Class for validation and storing information about screen points"""
 
-    _coords: array
+    _coords: ndarray
 
     def __init__(self, coords: Tuple[Union[int, float], Union[int, float]]):
         self.coords = coords
@@ -29,30 +29,30 @@ class ShapePoint:
 
     @coords.setter
     def coords(self, value: Tuple[Union[int, float], Union[int, float]]):
-        """Метод - сеттер для валидации и хранения полученных координат.
+        """Method -setter for validation and storing coordinates.
 
         Args:
-            value (Tuple[Union[int, float], Union[int, float]]): Кортеж из координат.
+            value (Tuple[Union[int, float], Union[int, float]]): tuple with coordinates
 
         Raises:
-            ShapePointTypeError: Передан неверный тип данных.
-            ShapePointTooManyValuesException: Передано слишком много парамеров в кортеже
-            ShapePointTypeError: Передан неверный тип данных внутри кортежа.
+            ShapePointTypeError: Wrong data type was passed.
+            ShapePointTooManyValuesException: You put too many variables inside tuple.
+            ShapePointTypeError: Data inside tuple is in the wrong format.
         """
         if not isinstance(value, Tuple) and not isinstance(value, ndarray):
-            detail = f"coords must be a type of: [tuple, np.ndarray], got [{type(value)}] instead."
+            detail = f"Coords must be a type of: [tuple, np.ndarray], got [{type(value)}] instead."
             raise ShapePointTypeError(detail)
 
         if isinstance(value, ndarray):
             value = value[:2]
 
         if len(value) != 2:
-            detail = "coords must contain 2 values"
+            detail = "Coords must contain 2 values"
             raise ShapePointTooManyValuesException(detail)
 
         for coord in value:
             if not isinstance(coord, int) and not isinstance(coord, float):
-                detail = f"values in coords must be a type of: [int, float], got [{coord}:{type(coord)}] instead."
+                detail = f"Values in coords must be a type of: [int, float], got [{coord}:{type(coord)}] instead."
                 raise ShapePointTypeError(detail)
 
         self._coords = array([value[0], value[1], 0])
