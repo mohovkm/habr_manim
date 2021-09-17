@@ -10,7 +10,7 @@ from .histogram_dot import HistogramDot
 
 
 class Movable(ABC):
-    """Abstract class to add 'movable' functionality to the granp"""
+    """Abstract class to add 'movable' functionality to the graph"""
 
     _next_dot_coords: Dict[Union[int, float], Dict[str, Union[int, float]]] = {}
     dot_padding: Union[int, float] = 0
@@ -45,13 +45,13 @@ class Movable(ABC):
         run_time: Union[int, float] = None,
         delay: Union[int, float] = None,
     ):
-        """Перемещение шариков на график.
+        """Moving dots to the graph.
 
         Args:
-            scene (Scene): Scene where all our objects located.
-            dots (VGroup): List od dots to move.
-            animate_slow (int): How much dots we need to animate slowly.
-            animate_rest (bool): Do we need to move rest of the dots or not.
+            scene (Scene): Scene where all our objects are located.
+            dots (VGroup): List of dots to move.
+            animate_slow (int): How many dots do we need to animate slowly.
+            animate_rest (bool): Do we need to move the rest of the dots or not.
             run_time (Union[int, float]): How quickly we need to animate dots. Defaults to None.
             delay (Union[int, float], optional): Delay between animations. Defaults to None.
         """
@@ -83,7 +83,7 @@ class Movable(ABC):
 
 
 class MovableContinuousGraph(ContinuousGraph, Movable):
-    """Continious graph that could move dots"""
+    """Continuous graph that could move dots"""
 
 
 class MovableCategoricalGraph(CategoricalGraph, Movable):

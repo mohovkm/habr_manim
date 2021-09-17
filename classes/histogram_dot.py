@@ -29,7 +29,7 @@ class HistogramDot(VGroup):
         radius: float = None,
         color: Color = None,
     ):
-        """Class initialisation.
+        """Class initialization.
 
         Args:
             value (int): Text of the dot.
@@ -55,13 +55,13 @@ class HistogramDot(VGroup):
 
         self.point = ShapePoint(point)
 
-        # We are changin text size to be able to add it inside dot
+        # We are changing the text size to be able to add it inside a d
         if isinstance(self.value, float):
             text.scale(self.dot_scale_float)
         else:
             text.scale(self.dot_scale_int)
 
-        # Moving text inside dot
+        # Moving text inside a dot
         text.move_to(dot.get_center())
 
         super().__init__(dot, text)

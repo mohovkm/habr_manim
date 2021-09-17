@@ -35,7 +35,7 @@ class Graph(ABC):
         color=BLACK,
         stroke_width=1,
     ):
-        """Graph initialisation
+        """Graph initialization
 
         Args:
             start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
@@ -51,7 +51,7 @@ class Graph(ABC):
             GraphLinesEmptyException: Raises when start_end_points and vertical_line weren't passed.
         """
         if not start_end_points and not vertical_line:
-            detail = "Can't create graph with empty lines."
+            detail = "Can't create a graph with empty lines."
             raise GraphLinesEmptyException(detail)
 
         # Initialise graph lines
@@ -106,10 +106,10 @@ class CategoricalGraph(Graph, VGroup):
     """Categorical Graph. Inherited from Graph"""
 
     def create_graph(self) -> Tuple[list, list]:
-        """Realisation of create_graph method.
+        """Implementation of create_graph method.
 
         Returns:
-            Tuple[list, list]: Tuple of list with lines and texts.
+            Tuple[list, list]: Tuple of the list with lines and texts.
         """
         lines = []
         texts = []
@@ -184,13 +184,11 @@ class CategoricalGraph(Graph, VGroup):
 
 
 class ContinuousGraph(Graph, VGroup):
-    """Continuous Graph. Inherited from Graph"""
-
     def create_graph(self) -> Tuple[list, list]:
-        """Realisation of create_graph method.
+        """Implementation of create_graph method.
 
         Returns:
-            Tuple[list, list]: Tuple of list with lines and texts.
+            Tuple[list, list]: Tuple of the list with lines and texts.
         """
         lines = []
         texts = []

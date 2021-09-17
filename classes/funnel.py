@@ -21,7 +21,7 @@ class Funnel(VGroup):
         lines_color: Color = BLACK,
         stroke_width: Union[int, float] = 1,
     ):
-        """Funnel initialisation.
+        """Funnel initialization.
 
         Args:
             start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).

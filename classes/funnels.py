@@ -9,7 +9,7 @@ from .shape_point import ShapePoint
 
 
 class FunnelsExeption(Exception):
-    """Основная ошибка для класса Funnels"""
+    """General exception for Funnels class"""
 
 
 class Funnels(VGroup):
@@ -25,7 +25,7 @@ class Funnels(VGroup):
         *args,
         **kwargs,
     ):
-        """Object-constructor for the funnels. Inside init you could pass all needed variables that will be
+        """Object-constructor for the funnels. Inside init, you could pass all needed variables that will be
             passed to the Funnel init as well.
 
         Args:

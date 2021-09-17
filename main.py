@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-# We are importing MovingCamera, instead of CameraScene to be albe to
+# We are importing MovingCamera, instead of CameraScene to be able to
 # move camera around.
 from manimlib.imports import MovingCameraScene
 
@@ -26,7 +26,7 @@ class MainScene(MovingCameraScene):
     }
 
     def construct(self):
-        """Метод construct - точка входа в создание сцены"""
+        """Construct method - enter point to create animation"""
         hist = Scenario(self)
         # hist.play_first_scene()
         # hist.play_second_scene()

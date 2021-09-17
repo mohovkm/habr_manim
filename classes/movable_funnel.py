@@ -17,7 +17,7 @@ class LineNotFoundException(MovableFunnelException):
 
 
 class MovableFunnel(Funnel):
-    """Overriden Funnel class to add 'movable' functionality"""
+    """Overridden Funnel class to add 'movable' functionality"""
 
     _next_dot_coords: Dict[str, Union[int, float]] = {}
     dot_padding: Union[int, float] = 0.22
@@ -30,7 +30,7 @@ class MovableFunnel(Funnel):
         *args,
         **kwargs,
     ):
-        """Class initialisation. It recieves all parameters that Funnel class needs.
+        """Class initialization. It receives all parameters that the Funnel class needs.
 
         Args:
             start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
@@ -88,7 +88,7 @@ class MovableFunnel(Funnel):
             line_x = [x[0] for x in line.get_all_points()]
             line_y = [x[1] for x in line.get_all_points()]
 
-            # Where the magic happenes. We're interpolate Y from another X, Y points.
+            # Where the magic happens. We're interpolating Y from another X, Y points.
             point_y = interp(point_x, line_x, line_y, period=10)
             point_y += 0.25
 
@@ -107,10 +107,10 @@ class MovableFunnel(Funnel):
         """Moving dots from anywhere to the funnel.
 
         Args:
-            scene (Scene): Scene where all our objects located.
-            dots (VGroup): List od dots to move.
-            animate_slow (int): How much dots we need to animate slowly.
-            animate_rest (bool): Do we need to move rest of the dots or not.
+           scene (Scene): Scene where all our objects are located.
+           dots (VGroup): List of dots to move.
+           animate_slow (int): How many dots do we need to animate slowly.
+           animate_rest (bool): Do we need to move the rest of the dots or not.
         """
         if animate_slow > len(dots):
             animate_slow = len(dots)

@@ -34,7 +34,7 @@ class Table(VGroup):
         *args,
         **kwargs,
     ):
-        """Class initialisation
+        """Class initialization.
 
         Args:
             start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
@@ -51,7 +51,7 @@ class Table(VGroup):
             TableLineEmptyException: Raises when no start_end_points were passed.
         """
         if not start_end_points:
-            detail = "Can't create graph with empty start line."
+            detail = "Can't create a graph with the empty start line."
             raise TableLineEmptyException(detail)
 
         if columns_width:
@@ -77,10 +77,10 @@ class Table(VGroup):
         super().__init__(*self.lines, *args, **kwargs)
 
     def _create_table(self) -> VGroup:
-        """Функция построения таблицы
+        """Method for creating table.
 
         Returns:
-            VGroup: Cписок из линий (Line).
+            VGroup: Object made from the list of lines (Line).
         """
         lines = []
         y_point = self.horizontal_line[0][1]
@@ -137,7 +137,7 @@ class Table(VGroup):
 
 
 class CustomersTable(Table):
-    """Overriden Table class. Custom text and dots were added."""
+    """Overridden Table class. Custom text and dots were added."""
 
     def __init__(
         self,
@@ -150,7 +150,7 @@ class CustomersTable(Table):
         text: str = "",
         start_dots_values: list = None,
     ):
-        """Class initialisation.
+        """Class initialization.
 
         Args:
             start_end_points (Tuple[tuple, tuple]): Left top and right top points. ((x1,y1), (x2,y2)).
@@ -162,7 +162,7 @@ class CustomersTable(Table):
                 Defaults to 0.
             text (str, optional): Text for adding to the table. Ex "Customer"
                 Defaults to "".
-            start_dots_values (list, optional): List with inital values for the dots.
+            start_dots_values (list, optional): List with initial values for the dots.
                 Defaults to None.
         """
         self.horizontal_line = [

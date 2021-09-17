@@ -20,7 +20,7 @@ from classes import (
 
 class Scenario:
     def __init__(self, scene: Scene):
-        """Main scenario class initialisation.
+        """Main scenario class initialization.
 
         Args:
             scene (Scene): Instance of the Scene class.
@@ -39,7 +39,7 @@ class Scenario:
         point_radius = 0.3
 
         for _ in range(5):
-            # Dots inside coulumns will be placed one above the other, so Y position
+            # Dots inside columns will be placed one above the other, so Y position
             # will be calculated automatically
             start_y = -2
 
@@ -62,7 +62,7 @@ class Scenario:
         # Adding dots to the scene
         self.scene.add(dots)
 
-        # Creating text. We are using our own overriden class.
+        # Creating text. We are using our own Overridden class.
         heading = HistogramText("Гистограммы", color=BLACK)
 
         # Changin text size with scale
@@ -131,7 +131,7 @@ class Scenario:
         # Initial dot values, to keep them the same over several animation builds
         start_dot_values = [1, 2, 1, 3, 4, 2, 1]
 
-        # Table initialisation
+        # Table initialization
         table = CustomersTable(
             ((-6, 2), (-2, 2)),
             row_count=10,
@@ -140,7 +140,7 @@ class Scenario:
             start_dots_values=start_dot_values,
         )
 
-        # Graph initialisation
+        # Graph initialization
         x_graph = MovableCategoricalGraph(
             ((0, 0), (4, 0)),
             None,
@@ -198,7 +198,7 @@ class Scenario:
         # Custom text for the table (Customer/buyer)
         table_text = "Заказчик"
 
-        # Table initialisation
+        # Table initialization
         table = CustomersTable(
             ((-6.5, 3), (-2.5, 3)),
             row_count=30,
@@ -209,7 +209,7 @@ class Scenario:
             text=table_text,
         )
 
-        # Graph initialisation
+        # Graph initialization
         x_graph = MovableContinuousGraph(
             ((-2, -3), (6.5, -3)),
             None,
@@ -217,7 +217,7 @@ class Scenario:
             annot=True,
         )
 
-        # New graph that will be onthe whole screen width
+        # New graph that will be on the whole screen width
         x_graph_second_position = MovableContinuousGraph(
             ((-6.5, -3), (6.5, -3)),
             None,
@@ -233,7 +233,7 @@ class Scenario:
 
         self.scene.wait(2)
 
-        # Moving dots from table to graph
+        # Moving dots from the table to the graph
         x_graph.drag_in_dots(
             self.scene,
             dots=table.dots,
@@ -246,7 +246,7 @@ class Scenario:
         # Removing graph
         self.scene.play(FadeOut(table.lines), FadeOut(table.customers))
 
-        # Moving dots from first graph to the second
+        # Moving dots from the first graph to the second
         x_graph_second_position.drag_in_dots(
             scene=self.scene,
             dots=dots_second_position,
@@ -282,7 +282,7 @@ class Scenario:
 
         self.scene.wait(1)
 
-        # Moving dots from grpah to funnels
+        # Moving dots from the graph to the funnels
         funnels.drag_in_dots(
             scene=self.scene,
             dots=table.dots,
