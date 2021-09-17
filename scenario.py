@@ -87,7 +87,7 @@ class Scenario:
         table = CustomersTable(
             ((-2, 2), (2, 2)),
             row_count=10,
-            visible_row_count=5,
+            visible_row_count=10,
             bins=2,
         )
 
@@ -135,7 +135,7 @@ class Scenario:
         table = CustomersTable(
             ((-6, 2), (-2, 2)),
             row_count=10,
-            visible_row_count=8,
+            visible_row_count=10,
             bins=4,
             start_dots_values=start_dot_values,
         )
@@ -183,7 +183,12 @@ class Scenario:
 
         self.scene.add(funnels, table)
 
-        funnels.drag_in_dots(scene=self.scene, dots=table.dots, animate_slow=3, animate_rest=False)
+        funnels.drag_in_dots(
+            scene=self.scene,
+            dots=table.dots,
+            animate_slow=3,
+            animate_rest=False,
+        )
 
     def play_whole_scenario(self):
         # Dot bins maximum value

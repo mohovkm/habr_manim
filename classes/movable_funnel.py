@@ -88,7 +88,7 @@ class MovableFunnel(Funnel):
             line_x = [x[0] for x in line.get_all_points()]
             line_y = [x[1] for x in line.get_all_points()]
 
-            # Where the magic happens. We're interpolating Y from another X, Y points.
+            # Where the magic happens. We're interpolating Y from other X, Y points.
             point_y = interp(point_x, line_x, line_y, period=10)
             point_y += 0.25
 
