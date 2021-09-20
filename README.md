@@ -23,6 +23,12 @@ sudo apt-get install libcairo2-dev
 
 3. Compile and run your project
 ```bash
+cd habr_manim/
 poetry install
 poetry run python main.py
 ```
+
+### Explanation
+- main.py - entry point for the animation
+- scenario.py - examples of different scenes with custom classes
+- classes/\*.py - custom classes of different objects (table, dot, graph, etc).
